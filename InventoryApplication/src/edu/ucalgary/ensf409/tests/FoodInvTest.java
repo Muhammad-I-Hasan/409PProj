@@ -1,4 +1,4 @@
-package edu.ucalgary.ensf409;
+package edu.ucalgary.ensf409.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -7,6 +7,10 @@ import static org.junit.Assert.assertNull;
 import java.util.ArrayList;
 
 import org.junit.Test;
+
+import edu.ucalgary.ensf409.Food;
+import edu.ucalgary.ensf409.FoodInv;
+import edu.ucalgary.ensf409.Nutrition;
 
 public class FoodInvTest {
 	

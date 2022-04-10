@@ -1,5 +1,8 @@
-package edu.ucalgary.ensf409;
+package edu.ucalgary.ensf409.tests;
 import org.junit.Test;
+
+import edu.ucalgary.ensf409.Nutrition;
+
 import org.junit.Assert;
 import static org.junit.Assert.*;
 

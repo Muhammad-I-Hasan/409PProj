@@ -1,4 +1,8 @@
-package edu.ucalgary.ensf409;
+package edu.ucalgary.ensf409.tests;
+
+import edu.ucalgary.ensf409.Client;
+import edu.ucalgary.ensf409.ClientList;
+import edu.ucalgary.ensf409.Nutrition;
 
 public class ClientListTest {
 	

@@ -1,6 +1,14 @@
-package edu.ucalgary.ensf409;
+package edu.ucalgary.ensf409.tests;
 
 import static org.junit.Assert.assertEquals;
+
+import edu.ucalgary.ensf409.Client;
+import edu.ucalgary.ensf409.Food;
+import edu.ucalgary.ensf409.FoodInv;
+import edu.ucalgary.ensf409.Household;
+import edu.ucalgary.ensf409.InsufficientInventoryException;
+import edu.ucalgary.ensf409.Nutrition;
+import edu.ucalgary.ensf409.Order;
 
 public class OrderTest {
 	

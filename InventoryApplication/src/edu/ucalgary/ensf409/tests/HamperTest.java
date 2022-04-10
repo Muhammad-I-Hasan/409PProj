@@ -1,4 +1,8 @@
-package edu.ucalgary.ensf409;
+package edu.ucalgary.ensf409.tests;
+
+import edu.ucalgary.ensf409.Food;
+import edu.ucalgary.ensf409.Hamper;
+import edu.ucalgary.ensf409.Nutrition;
 
 public class HamperTest {
 	

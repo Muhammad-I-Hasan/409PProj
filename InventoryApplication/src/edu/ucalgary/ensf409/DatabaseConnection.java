@@ -24,7 +24,7 @@ public abstract class DatabaseConnection {
 			dbConnect.close();
 			results.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 	}
@@ -35,7 +35,7 @@ public abstract class DatabaseConnection {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-/***********ADD CODE HERE***********/                
+         
 
     }
 	public abstract void loadFromDB();

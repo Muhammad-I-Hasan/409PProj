@@ -33,7 +33,10 @@ public class Order {
 	}
 	
 	public void makeAndFinalizeOrder() throws InsufficientInventoryException {
-		//todo
+		
+		for(Household i: houseHolds) {
+			makeHamper(i);
+		}
 	}
 	
 	public void addHousehold(Household house) {
@@ -44,5 +47,17 @@ public class Order {
 	public FoodInv getInventory() {
 	
 		return this.inventory;
+	}
+	
+	public void makeHamper(Household house) {
+		//logic goes here
+		//end of logic, list of food named list (for now)
+		ArrayList<Food> list = new ArrayList<Food>();
+		for (Food i: list) {
+			house.getHamper().addFood(i);
+		}
+		for (Food i: list) {
+			inventory.remove(i);
+		}
 	}
 }

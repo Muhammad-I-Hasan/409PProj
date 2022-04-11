@@ -11,6 +11,7 @@ public class Household {
 	public Household() {
 		this.clientList = new ArrayList<Client>();
 		this.totalNeeds = new Nutrition(0,0,0,0,0);
+		this.possibleHamper = new Hamper();
 	}
 	
 	public ArrayList<Client> getClientList() {
@@ -47,4 +48,10 @@ public class Household {
 		
 		totalNeeds = new Nutrition(gr, fv, pr, other, cal);
 	}
+	
+	public Hamper getHamper() {
+		return this.possibleHamper;
+	}
+	
+	
 }

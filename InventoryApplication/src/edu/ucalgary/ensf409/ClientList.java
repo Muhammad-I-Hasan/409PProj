@@ -28,10 +28,6 @@ public class ClientList extends DatabaseConnection{
 	public void loadFromDB() {
 		initializeConnection();
 	
-		
-		
-		
-		String ans = "";
         try {
         	String query = "SELECT * FROM "+ this.TABLENAME;
         	PreparedStatement myStmt = dbConnect.prepareStatement(query);

@@ -1,24 +1,23 @@
 package edu.ucalgary.ensf409;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public abstract class DatabaseConnection {
-	private String USERNAME = "student";
-	private String PASSWORD = "ensf";
-	private String CONNECTION = "jdbc:mysql://localhost/food_inventory";
-	//"jdbc:mysql://localhost/food_inventory
+	private final String USERNAME;
+	private final String PASSWORD;
+	private final String CONNECTION;
 	protected Connection dbConnect;
     protected ResultSet results;
 	
-    public DatabaseConnection(){
-    	
-    }
 	
-//	DatabaseConnection(String name, String password, String connection){
-//		this.USERNAME = name;
-//		this.PASSWORD = password;
-//		this.CONNECTION = connection;
-//	}
+	DatabaseConnection(String name, String password, String connection){
+		this.USERNAME = name;
+		this.PASSWORD = password;
+		this.CONNECTION = connection;
+	}
 	
 	public void closeDB() {
 		try {

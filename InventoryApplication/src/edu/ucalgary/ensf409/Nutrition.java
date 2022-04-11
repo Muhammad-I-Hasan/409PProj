@@ -8,7 +8,7 @@ public class Nutrition {
 	private final int CALORIES;
 	
 	
-	Nutrition(int grain, int fruitsveggies, int protein, int other,int calories){
+	Nutrition(int grain, int fruitsveggies, int protein, int calories,int other){
 		this.GRAIN = grain;
 		this.FRUITSVEGGIES = fruitsveggies;
 		this.PROTEIN = protein;

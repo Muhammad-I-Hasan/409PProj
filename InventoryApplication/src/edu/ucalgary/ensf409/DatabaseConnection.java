@@ -7,7 +7,7 @@ public abstract class DatabaseConnection {
 	private String PASSWORD = "ensf";
 	private String CONNECTION = "jdbc:mysql://localhost/food_inventory";
 	//"jdbc:mysql://localhost/food_inventory
-
+	
 	protected Connection dbConnect;
     protected ResultSet results;
 	

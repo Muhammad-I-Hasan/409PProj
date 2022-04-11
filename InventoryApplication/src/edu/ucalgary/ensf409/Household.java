@@ -47,4 +47,9 @@ public class Household {
 		
 		totalNeeds = new Nutrition(gr, fv, pr, other, cal);
 	}
+
+	public Hamper getHamper() {
+		// TODO Auto-generated method stub
+		return this.possibleHamper;
+	}
 }

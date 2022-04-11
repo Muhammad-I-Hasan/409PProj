@@ -2,7 +2,7 @@ package edu.ucalgary.ensf409;
 
 import java.util.ArrayList;
 
-public class FoodInv {
+public class FoodInv extends DatabaseConnection{
 
 	private ArrayList<Food> currFood = new ArrayList<Food>();
 	
@@ -17,7 +17,7 @@ public class FoodInv {
 		return currFood;
 	}
 	public FoodInv() {
-		currFood = null;
+		
 		// TODO Auto-generated constructor stub
 	}
 
@@ -35,6 +35,17 @@ public class FoodInv {
 		
 	}
 	public void remove(Food toRemove) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void loadFromDB() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void updateDB() {
 		// TODO Auto-generated method stub
 		
 	}

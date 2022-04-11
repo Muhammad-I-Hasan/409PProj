@@ -26,6 +26,7 @@ public class FoodInv extends DatabaseConnection{
 	}
 
 	public void addFood(Food add) {
+		currFood.add(add);
 		// TODO Auto-generated method stub
 		
 	}
@@ -35,6 +36,7 @@ public class FoodInv extends DatabaseConnection{
 		return currFood.get(i);
 	}
 	public void remove(int i) {
+		currFood.remove(i);
 		// TODO Auto-generated method stub
 		
 	}

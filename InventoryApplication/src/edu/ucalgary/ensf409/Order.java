@@ -90,10 +90,11 @@ public class Order {
 				foodList.remove(inventoryList.get(i));
 				
 			}else {
-				int maxTemp = recursiveImplementationMakeHamperHelper( inventoryList, foodList, bestFoodList, nutrVals, currentPosition+1, max);
+				int maxTemp = recursiveImplementationMakeHamperHelper( inventoryList, foodList, bestFoodList, nutrVals, i+1, max);
 				if(maxTemp < max) {
 					max = maxTemp;
 				}
+				foodList.remove(inventoryList.get(i));
 			}
 			
 		}

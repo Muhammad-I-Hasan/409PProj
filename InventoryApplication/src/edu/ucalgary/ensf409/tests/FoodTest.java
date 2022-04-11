@@ -1,10 +1,13 @@
-package edu.ucalgary.ensf409;
+package edu.ucalgary.ensf409.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import edu.ucalgary.ensf409.Food;
+import edu.ucalgary.ensf409.Nutrition;
 
 public class FoodTest {
 	

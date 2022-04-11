@@ -1,6 +1,10 @@
-package edu.ucalgary.ensf409;
+package edu.ucalgary.ensf409.tests;
 
 import org.junit.Test;
+
+import edu.ucalgary.ensf409.Client;
+import edu.ucalgary.ensf409.Nutrition;
+
 import static org.junit.Assert.*;
 
 public class ClientTest {

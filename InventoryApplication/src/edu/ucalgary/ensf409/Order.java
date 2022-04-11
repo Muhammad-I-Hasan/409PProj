@@ -50,8 +50,11 @@ public class Order {
 	
 	public void makeHamper(Household house) {
 		ArrayList<Food> inventoryList = inventory.getFoodList();
-		Nutrition temp = house.getTotalNeeds();
-		makeHamperHelper(inventoryList,temp);
+		Nutrition nutr = house.getTotalNeeds();
+		ArrayList<Food> foodList = new ArrayList<>();
+		ArrayList<Food> bestFoodList = new ArrayList<>();
+		recursiveImplementationMakeHamperHelper(inventoryList,foodList,bestFoodList,nutr,0,Integer.MAX_VALUE);
+//		makeHamperHelper(inventoryList,temp);
 		
 		//logic goes here
 		//end of logic, list of food named list (for now)
@@ -63,38 +66,16 @@ public class Order {
 			inventory.remove(i);
 		}
 	}
-	private void makeHamperHelper(ArrayList<Food> inventoryList, Nutrition nutrVals) {
-		
-		ArrayList<Food> foodList = new ArrayList<Food>();
-		ArrayList<Food> bestFoodList = new ArrayList<Food>();
-		int max =Integer.MAX_VALUE;
-		for(int i =0; i < inventoryList.size(); i++) {
-			foodList.add(inventoryList.get(i));
-			Nutrition temp =NutritionValuesOfFoodList(foodList);
-			if(temp.getGrain() > nutrVals.getGrain() && temp.getCalories() > nutrVals.getCalories() && temp.getFruitsVeggies() > nutrVals.getFruitsVeggies() && 
-					temp.getOther() > nutrVals.getOther() && temp.getProtein() > nutrVals.getProtein()) {
-				int excess = (temp.getGrain() - nutrVals.getGrain()) + (temp.getCalories() - nutrVals.getCalories()) + (temp.getFruitsVeggies() - nutrVals.getFruitsVeggies()) + 
-						(temp.getOther() - nutrVals.getOther()) + (temp.getProtein() - nutrVals.getProtein());
-				if (excess < max) {
-					max = excess;
-					bestFoodList = (ArrayList<Food>) foodList.clone();
-				}
-			}
-			
-		}
-	}
-	
-	@SuppressWarnings({ "unused", "unchecked" })
-	private ArrayList<Food> recursiveImplementation(ArrayList<Food> inventoryList, Nutrition nutrVals,ArrayList<Food> foodList,int currentPosition,int max, ArrayList<Food> bestFoodList) {
+
+
+	private int recursiveImplementationMakeHamperHelper(ArrayList<Food> inventoryList, ArrayList<Food> foodList, ArrayList<Food> bestFoodList,Nutrition nutrVals,int currentPosition,int max) {
 		
 		if(currentPosition > inventoryList.size()) {
-			return null;
+			return Integer.MAX_VALUE;
 		}
-		
-//		ArrayList<Food> bestFoodList = new ArrayList<Food>();
+
 		for(int i =currentPosition; i < inventoryList.size(); i++) {
-			
-			
+
 			foodList.add(inventoryList.get(i));
 			Nutrition temp =NutritionValuesOfFoodList(foodList);
 			if(temp.getGrain() > nutrVals.getGrain() && temp.getCalories() > nutrVals.getCalories() && temp.getFruitsVeggies() > nutrVals.getFruitsVeggies() && 
@@ -109,11 +90,14 @@ public class Order {
 				foodList.remove(inventoryList.get(i));
 				
 			}else {
-				recursiveImplementation( inventoryList, nutrVals, foodList, currentPosition+1, max, bestFoodList);
+				int maxTemp = recursiveImplementationMakeHamperHelper( inventoryList, foodList, bestFoodList, nutrVals, currentPosition+1, max);
+				if(maxTemp < max) {
+					max = maxTemp;
+				}
 			}
 			
 		}
-		return null;
+		return max;
 	}
 	
 	private Nutrition NutritionValuesOfFoodList(ArrayList<Food> foodlist) {
@@ -130,3 +114,26 @@ public class Order {
 		
 	}
 }
+
+
+
+//private void makeHamperHelper(ArrayList<Food> inventoryList, Nutrition nutrVals) {
+//
+//ArrayList<Food> foodList = new ArrayList<Food>();
+//ArrayList<Food> bestFoodList = new ArrayList<Food>();
+//int max =Integer.MAX_VALUE;
+//for(int i =0; i < inventoryList.size(); i++) {
+//	foodList.add(inventoryList.get(i));
+//	Nutrition temp =NutritionValuesOfFoodList(foodList);
+//	if(temp.getGrain() > nutrVals.getGrain() && temp.getCalories() > nutrVals.getCalories() && temp.getFruitsVeggies() > nutrVals.getFruitsVeggies() && 
+//			temp.getOther() > nutrVals.getOther() && temp.getProtein() > nutrVals.getProtein()) {
+//		int excess = (temp.getGrain() - nutrVals.getGrain()) + (temp.getCalories() - nutrVals.getCalories()) + (temp.getFruitsVeggies() - nutrVals.getFruitsVeggies()) + 
+//				(temp.getOther() - nutrVals.getOther()) + (temp.getProtein() - nutrVals.getProtein());
+//		if (excess < max) {
+//			max = excess;
+//			bestFoodList = (ArrayList<Food>) foodList.clone();
+//		}
+//	}
+//	
+//}
+//}

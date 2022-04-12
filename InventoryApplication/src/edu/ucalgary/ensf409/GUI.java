@@ -25,6 +25,8 @@ import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class GUI {
 
@@ -37,6 +39,12 @@ public class GUI {
 	private JButton addHouseholdButton;
 	private JButton btnEditHousehold;
 	private JButton btnRemoveSelected;
+	
+	private JLabel fibreNeedsLabel;
+	private JLabel fvNeedsLabel;
+	private JLabel proNeedsLabel;
+	private JLabel otherNeedsLabel;
+	private JLabel calNeedsLabel;
     private ListSelectionModel listSelectionModel;
 
 
@@ -317,22 +325,43 @@ public class GUI {
 		houseEditCard.add(btnNewButton_3);
 		
 		adMaleSpin = new JSpinner();
+		adMaleSpin.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				fibreNeedsLabel.setText("Fe #");
+			}
+		});
 		adMaleSpin.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		adMaleSpin.setBounds(52, 106, 41, 33);
 		houseEditCard.add(adMaleSpin);
 		
 		
 		AdFemaleSpin = new JSpinner();
+		AdFemaleSpin.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				proNeedsLabel.setText("Fe #");
+			}
+		});
 		AdFemaleSpin.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		AdFemaleSpin.setBounds(52, 151, 41, 33);
 		houseEditCard.add(AdFemaleSpin);
 		
 		chOver8Spin = new JSpinner();
+		chOver8Spin.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				calculateNeeds();
+				fibreNeedsLabel.setText("chO8");
+			}
+		});
 		chOver8Spin.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		chOver8Spin.setBounds(52, 190, 41, 33);
 		houseEditCard.add(chOver8Spin);
 		
 		chUnder8Spin = new JSpinner();
+		chUnder8Spin.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				fvNeedsLabel.setText("chO8");
+			}
+		});
 		chUnder8Spin.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		chUnder8Spin.setBounds(52, 235, 41, 30);
 		houseEditCard.add(chUnder8Spin);
@@ -360,24 +389,49 @@ public class GUI {
 		houseEditCard.add(houseRequirements);
 		
 		JLabel fibreReqLabel = new JLabel("Fibre: ");
-		fibreReqLabel.setBounds(321, 129, 239, 16);
+		fibreReqLabel.setFont(new Font("Dialog", Font.PLAIN, 12));
+		fibreReqLabel.setBounds(321, 129, 117, 16);
 		houseEditCard.add(fibreReqLabel);
 		
 		JLabel fvReqLabel = new JLabel("Fruits & Vegtables:");
-		fvReqLabel.setBounds(321, 159, 239, 16);
+		fvReqLabel.setFont(new Font("Dialog", Font.PLAIN, 12));
+		fvReqLabel.setBounds(321, 159, 126, 16);
 		houseEditCard.add(fvReqLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("Protein: ");
-		lblNewLabel_1.setBounds(321, 190, 57, 16);
-		houseEditCard.add(lblNewLabel_1);
+		JLabel proReqLabel = new JLabel("Protein: ");
+		proReqLabel.setFont(new Font("Dialog", Font.PLAIN, 12));
+		proReqLabel.setBounds(321, 190, 57, 16);
+		houseEditCard.add(proReqLabel);
 		
-		JLabel lblNewLabel_2 = new JLabel("Other:");
-		lblNewLabel_2.setBounds(321, 218, 57, 16);
-		houseEditCard.add(lblNewLabel_2);
+		JLabel calReqLabel = new JLabel("Other:");
+		calReqLabel.setFont(new Font("Dialog", Font.PLAIN, 12));
+		calReqLabel.setBounds(321, 218, 57, 16);
+		houseEditCard.add(calReqLabel);
 		
 		JLabel lblNewLabel_3 = new JLabel("Calories:");
+		lblNewLabel_3.setFont(new Font("Dialog", Font.PLAIN, 12));
 		lblNewLabel_3.setBounds(321, 242, 57, 16);
 		houseEditCard.add(lblNewLabel_3);
+		
+		fibreNeedsLabel = new JLabel("##");
+		fibreNeedsLabel.setBounds(470, 129, 57, 16);
+		houseEditCard.add(fibreNeedsLabel);
+		
+		fvNeedsLabel = new JLabel("##");
+		fvNeedsLabel.setBounds(470, 159, 57, 16);
+		houseEditCard.add(fvNeedsLabel);
+		
+		proNeedsLabel = new JLabel("##");
+		proNeedsLabel.setBounds(470, 190, 57, 16);
+		houseEditCard.add(proNeedsLabel);
+		
+		otherNeedsLabel = new JLabel("##");
+		otherNeedsLabel.setBounds(470, 218, 57, 16);
+		houseEditCard.add(otherNeedsLabel);
+		
+		calNeedsLabel = new JLabel("##");
+		calNeedsLabel.setBounds(470, 242, 57, 16);
+		houseEditCard.add(calNeedsLabel);
 		
 
 	}
@@ -396,6 +450,17 @@ public class GUI {
 	
 	private void loadToHouseForm(/*Household hs*/) {
 		
+	}
+	
+	private void calculateNeeds() {
+		//used for spinner events
+		fibreNeedsLabel.setText("rc");
+		fvNeedsLabel.setText("rc");
+		proNeedsLabel.setText("rc");
+		otherNeedsLabel.setText("rc");
+		calNeedsLabel.setText("rc");
+
+
 	}
 	
 }

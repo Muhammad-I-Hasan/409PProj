@@ -6,7 +6,7 @@ public class Food {
 	
 	private final int ID;
 
-	Food(Nutrition nutrition, String name, int ID){
+	public Food(Nutrition nutrition, String name, int ID){
 		this.NUTRITIONVALUES = nutrition;
 		this.NAME = name;
 		this.ID = ID;

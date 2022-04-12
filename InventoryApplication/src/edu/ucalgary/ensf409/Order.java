@@ -48,23 +48,27 @@ public class Order {
 		return this.inventory;
 	}
 	
-	public void makeHamper(Household house) {
+	public void makeHamper(Household house) throws InsufficientInventoryException {
 		ArrayList<Food> inventoryList = inventory.getFoodList();
 		Nutrition nutr = house.getTotalNeeds();
 		ArrayList<Food> foodList = new ArrayList<>();
 		ArrayList<Food> bestFoodList = new ArrayList<>();
-		recursiveImplementationMakeHamperHelper(inventoryList,foodList,bestFoodList,nutr,0,Integer.MAX_VALUE);
-//		makeHamperHelper(inventoryList,temp);
 		
+		int minimum = recursiveImplementationMakeHamperHelper(inventoryList,foodList,bestFoodList,nutr,0,Integer.MAX_VALUE);
+		if(minimum == Integer.MAX_VALUE) {throw new InsufficientInventoryException();}
+//		makeHamperHelper(inventoryList,temp);
+		System.out.println(minimum);
 		//logic goes here
 		//end of logic, list of food named list (for now)
-		ArrayList<Food> list = new ArrayList<Food>();
-		for (Food i: list) {
+		
+		for (Food i: bestFoodList) {
 			house.getHamper().addFood(i);
 		}
-		for (Food i: list) {
+		for (Food i: bestFoodList) {
 			inventory.remove(i);
 		}
+		
+		
 	}
 
 
@@ -80,11 +84,14 @@ public class Order {
 			Nutrition temp =NutritionValuesOfFoodList(foodList);
 			if(temp.getGrain() > nutrVals.getGrain() && temp.getCalories() > nutrVals.getCalories() && temp.getFruitsVeggies() > nutrVals.getFruitsVeggies() && 
 					temp.getOther() > nutrVals.getOther() && temp.getProtein() > nutrVals.getProtein()) {
-				int excess = (temp.getGrain() - nutrVals.getGrain()) + (temp.getCalories() - nutrVals.getCalories()) + (temp.getFruitsVeggies() - nutrVals.getFruitsVeggies()) + 
-						(temp.getOther() - nutrVals.getOther()) + (temp.getProtein() - nutrVals.getProtein());
+				int excess = (temp.getCalories() - nutrVals.getCalories());
 				if (excess < max) {
 					max = excess;
-					bestFoodList = (ArrayList<Food>) foodList.clone();
+					bestFoodList.clear();
+					for(Food j: foodList) {
+						bestFoodList.add(j);
+					}
+					
 				}
 				
 				foodList.remove(inventoryList.get(i));
@@ -93,6 +100,7 @@ public class Order {
 				int maxTemp = recursiveImplementationMakeHamperHelper( inventoryList, foodList, bestFoodList, nutrVals, i+1, max);
 				if(maxTemp < max) {
 					max = maxTemp;
+					
 				}
 				foodList.remove(inventoryList.get(i));
 			}

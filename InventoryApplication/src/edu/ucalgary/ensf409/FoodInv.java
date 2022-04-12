@@ -1,7 +1,6 @@
 package edu.ucalgary.ensf409;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class FoodInv extends DatabaseConnection{
@@ -41,10 +40,11 @@ public class FoodInv extends DatabaseConnection{
 		
 	}
 	public void remove(Food toRemove) {
-		initializeConnection();
+//		initializeConnection();
+		currFood.remove(toRemove);
 		
 		
-		closeDB();
+//		closeDB();
 		
 		
 	}
@@ -73,6 +73,35 @@ public class FoodInv extends DatabaseConnection{
 	}
 	@Override
 	public void updateDB() {
+		initializeConnection();
+		
+		
+		try {
+			 try {
+		            Statement deleteData = dbConnect.createStatement();
+		            String query = "INSERT INTO competitor (CompetitorID, LName, FName, Age, Instrument, TeacherID) VALUES (?,?,?,?,?,?)";
+		            PreparedStatement myStmt = dbConnect.prepareStatement(query);
+		            
+		            myStmt.setString(1, id);
+		            myStmt.setString(2, lName);
+		            myStmt.setString(3, fName);
+		            myStmt.setInt(4, age);
+		            myStmt.setString(5, instrument);
+		            myStmt.setString(6, teacherID);
+		            
+		            int rowCount = myStmt.executeUpdate();
+		            //System.out.println("Rows affected: " + rowCount);
+		            
+		            myStmt.close();
+
+		        } catch (SQLException ex) {
+		            ex.printStackTrace();
+		        }
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		closeDB();
 		// TODO Auto-generated method stub
 		
 	}

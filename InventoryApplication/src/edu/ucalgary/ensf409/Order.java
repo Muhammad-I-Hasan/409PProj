@@ -44,6 +44,10 @@ public class Order {
 		houseHolds.add(house);
 	}
 	
+	public ArrayList<Household> getHouseholds() {
+		return this.houseHolds;
+	}
+	
 	public FoodInv getInventory() {
 	
 		return this.inventory;

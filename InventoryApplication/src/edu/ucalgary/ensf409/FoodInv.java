@@ -53,9 +53,9 @@ public class FoodInv extends DatabaseConnection{
 		initializeConnection();
 		
         try {
-        	String query = "SELECT * FROM ?";
+        	String query = "SELECT * FROM " + this.TABLENAME;
         	PreparedStatement myStmt = dbConnect.prepareStatement(query);
-        	myStmt.setString(1, TABLENAME);
+        	//myStmt.setString(1, TABLENAME);
         	results = myStmt.executeQuery();
         	while(results.next()) {
         		Food temp = new Food(new Nutrition(results.getInt("GrainContent"),results.getInt("FVContent"),results.getInt("ProContent"),

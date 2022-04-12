@@ -34,7 +34,7 @@ public class Main {
 		
 //		System.out.println(one.getTotalNeeds().getCalories());
 		
-		if (one.getHamper().getContent().isEmpty()) {
+		if (one.getHamper().getContent().isEmpty()){
 			System.out.println("true");
 		}
 		

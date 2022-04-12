@@ -449,7 +449,7 @@ public class GUI {
 	}
 	
 	private void loadToHouseForm(/*Household hs*/) {
-		
+		//from DB
 	}
 	
 	private void calculateNeeds() {

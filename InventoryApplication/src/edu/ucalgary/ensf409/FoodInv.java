@@ -1,6 +1,7 @@
 package edu.ucalgary.ensf409;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class FoodInv extends DatabaseConnection{
@@ -39,12 +40,15 @@ public class FoodInv extends DatabaseConnection{
 		// TODO Auto-generated method stub
 		
 	}
-	public void remove(Food toRemove) {
-//		initializeConnection();
-		currFood.remove(toRemove);
-		
-		
-//		closeDB();
+	public void remove(Food toRemove) {//TODO
+		int x= 0;
+		for (Food i: this.currFood) {
+			if (i.equals(toRemove)) {
+				this.currFood.remove(x);
+				return;
+			}
+			x++;
+		}
 		
 		
 	}
@@ -73,35 +77,6 @@ public class FoodInv extends DatabaseConnection{
 	}
 	@Override
 	public void updateDB() {
-		initializeConnection();
-		
-		
-		try {
-			 try {
-		            Statement deleteData = dbConnect.createStatement();
-		            String query = "INSERT INTO competitor (CompetitorID, LName, FName, Age, Instrument, TeacherID) VALUES (?,?,?,?,?,?)";
-		            PreparedStatement myStmt = dbConnect.prepareStatement(query);
-		            
-		            myStmt.setString(1, id);
-		            myStmt.setString(2, lName);
-		            myStmt.setString(3, fName);
-		            myStmt.setInt(4, age);
-		            myStmt.setString(5, instrument);
-		            myStmt.setString(6, teacherID);
-		            
-		            int rowCount = myStmt.executeUpdate();
-		            //System.out.println("Rows affected: " + rowCount);
-		            
-		            myStmt.close();
-
-		        } catch (SQLException ex) {
-		            ex.printStackTrace();
-		        }
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		
-		closeDB();
 		// TODO Auto-generated method stub
 		
 	}

@@ -24,12 +24,12 @@ public class Order {
 	public Order(FoodInv inv, Household [] households) throws IllegalArgumentException {
 		
 		this.inventory = inv;
-		this.houseHolds = (ArrayList<Household>) Arrays.asList(households);//idk if this works lmao
+		//this.houseHolds = (ArrayList<Household>) Arrays.asList(households);//idk if this works lmao
 		
 		//alternative
-		/*for (Household i: households) {
+		for (Household i: households) {
 			houseHolds.add(i);
-		}*/
+		}
 	}
 	
 	public void makeAndFinalizeOrder() throws InsufficientInventoryException {

@@ -32,12 +32,16 @@ public class Main {
 		order2.addHousehold(one);
 		order2.addHousehold(one);
 		
-//		System.out.println(one.getTotalNeeds().getCalories());
+		Household [] list = {one, two};	
+		Order order3 = new Order(inv, list);
 		
-		if (one.getHamper().getContent().isEmpty()){
-			System.out.println("true");
-		}
+		/*
+		 * for (Household i: order3.houseHolds) {//only if houseHolds is public (for testing)
+		 * System.out.println(i.getTotalNeeds().getCalories()); }
+		 */
 		
+		System.out.println(cl.getClient(1).getID());
+		System.out.println(cl.getClient(1).getNutritionalNeeds().getFruitsVeggies());
 	}
 
 }

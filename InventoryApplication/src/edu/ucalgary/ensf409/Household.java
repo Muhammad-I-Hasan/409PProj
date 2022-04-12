@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Household {
 	
+	private String name = "temp";
 	private ArrayList<Client> clientList = null;
 	private Nutrition totalNeeds;
 	private Hamper possibleHamper;
@@ -22,6 +23,10 @@ public class Household {
 	public Nutrition getTotalNeeds() {
 		
 		return this.totalNeeds;
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 	
 	public void addClient(Client client) {

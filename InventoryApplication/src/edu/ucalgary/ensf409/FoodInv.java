@@ -1,6 +1,7 @@
 package edu.ucalgary.ensf409;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class FoodInv extends DatabaseConnection{
@@ -39,12 +40,15 @@ public class FoodInv extends DatabaseConnection{
 		// TODO Auto-generated method stub
 		
 	}
-	public void remove(Food toRemove) {
-//		initializeConnection();
-		currFood.remove(toRemove);
-		
-		
-//		closeDB();
+	public void remove(Food toRemove) {//TODO
+		int x= 0;
+		for (Food i: this.currFood) {
+			if (i.equals(toRemove)) {
+				this.currFood.remove(x);
+				return;
+			}
+			x++;
+		}
 		
 		
 	}
@@ -73,7 +77,6 @@ public class FoodInv extends DatabaseConnection{
 	}
 	@Override
 	public void updateDB() {
-		
 		initializeConnection();
 		
 		 try {

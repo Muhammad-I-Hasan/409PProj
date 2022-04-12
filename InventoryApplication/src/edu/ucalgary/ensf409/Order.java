@@ -73,14 +73,9 @@ public class Order {
 	}
 
 
-	private int recursiveImplementationMakeHamperHelper(ArrayList<Food> inventoryList, ArrayList<Food> foodList, ArrayList<Food> bestFoodList,Nutrition nutrVals,int currentPosition,int max) {
-		
-		if(currentPosition > inventoryList.size()) {
-			return Integer.MAX_VALUE;
-		}
-
+	private int recursiveImplementationMakeHamperHelper(ArrayList<Food> inventoryList, ArrayList<Food> foodList, ArrayList<Food> bestFoodList,Nutrition nutrVals,int currentPosition,int max) {	
+		if(currentPosition > inventoryList.size()) {return Integer.MAX_VALUE;}
 		for(int i =currentPosition; i < inventoryList.size(); i++) {
-
 			foodList.add(inventoryList.get(i));
 			Nutrition temp =NutritionValuesOfFoodList(foodList);
 			if(temp.getGrain() > nutrVals.getGrain() && temp.getCalories() > nutrVals.getCalories() && temp.getFruitsVeggies() > nutrVals.getFruitsVeggies() && 
@@ -92,20 +87,13 @@ public class Order {
 					for(Food j: foodList) {
 						bestFoodList.add(j);
 					}
-					
 				}
-				
 				foodList.remove(inventoryList.get(i));
-				
 			}else {
 				int maxTemp = recursiveImplementationMakeHamperHelper( inventoryList, foodList, bestFoodList, nutrVals, i+1, max);
-				if(maxTemp < max) {
-					max = maxTemp;
-					
-				}
+				if(maxTemp < max) { max = maxTemp; }
 				foodList.remove(inventoryList.get(i));
 			}
-			
 		}
 		return max;
 	}

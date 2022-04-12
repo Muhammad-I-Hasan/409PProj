@@ -1,7 +1,6 @@
 package edu.ucalgary.ensf409;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class FoodInv extends DatabaseConnection{

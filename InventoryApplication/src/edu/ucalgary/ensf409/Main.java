@@ -20,14 +20,8 @@ public class Main {
 		Household one = new Household();
 		one.addClient(cl.getClient(1));
 		one.addClient(cl.getClient(3));
-		one.addClient(cl.getClient(1));
-		one.addClient(cl.getClient(3));
 		one.addClient(cl.getClient(4));
-		one.addClient(cl.getClient(3));
-		one.addClient(cl.getClient(1));
-		one.addClient(cl.getClient(2));
-		one.addClient(cl.getClient(4));
-		one.addClient(cl.getClient(2));
+
 		
 //		one.addClient(cl.getClient(2));
 		// checking client list

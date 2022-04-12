@@ -73,33 +73,38 @@ public class FoodInv extends DatabaseConnection{
 	}
 	@Override
 	public void updateDB() {
+		
 		initializeConnection();
 		
-		
-		try {
-			 try {
-		            Statement deleteData = dbConnect.createStatement();
-		            String query = "INSERT INTO competitor (CompetitorID, LName, FName, Age, Instrument, TeacherID) VALUES (?,?,?,?,?,?)";
-		            PreparedStatement myStmt = dbConnect.prepareStatement(query);
-		            
-		            myStmt.setString(1, id);
-		            myStmt.setString(2, lName);
-		            myStmt.setString(3, fName);
-		            myStmt.setInt(4, age);
-		            myStmt.setString(5, instrument);
-		            myStmt.setString(6, teacherID);
-		            
+		 try {
+			 	String deleteString = "DELETE FROM " +TABLENAME + ";";
+			 	Statement deleteData = dbConnect.createStatement();
+			 	
+			 	
+	            deleteData.executeUpdate(deleteString);
+	            
+	            
+	            String query = "INSERT INTO available_food (ItemID, Name, GrainContent, FVContent, ProContent, Other, Calories) VALUES (?,?,?,?,?,?,?)";
+	            PreparedStatement myStmt = dbConnect.prepareStatement(query);
+	            for(Food i: currFood) {
+	            	myStmt.setInt(1, i.getID());
+		            myStmt.setString(2, i.getName());
+		            myStmt.setInt(3, i.getNutritionValues().getGrain());
+		            myStmt.setInt(4, i.getNutritionValues().getFruitsVeggies());
+		            myStmt.setInt(5, i.getNutritionValues().getProtein());
+		            myStmt.setInt(6, i.getNutritionValues().getOther());
+		            myStmt.setInt(7, i.getNutritionValues().getCalories());
 		            int rowCount = myStmt.executeUpdate();
-		            //System.out.println("Rows affected: " + rowCount);
-		            
-		            myStmt.close();
+	            }		            
+	            
+	            //System.out.println("Rows affected: " + rowCount);
+	            
+	            myStmt.close();
 
-		        } catch (SQLException ex) {
-		            ex.printStackTrace();
-		        }
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
+	        } catch (SQLException ex) {
+	            ex.printStackTrace();
+	        }
+		
 		
 		closeDB();
 		// TODO Auto-generated method stub

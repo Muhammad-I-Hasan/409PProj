@@ -36,6 +36,7 @@ public class Order {
 		for(Household i: houseHolds) {
 			makeHamper(i);
 		}
+		inventory.updateDB();
 	}
 	
 	public void addHousehold(Household house) {

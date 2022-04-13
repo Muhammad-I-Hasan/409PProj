@@ -12,6 +12,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
@@ -33,7 +34,7 @@ public class GUI {
 	private JFrame frmAddHouseholdsTo;
 	private JTextField nameText;
 	private JSpinner adMaleSpin;
-	private JSpinner AdFemaleSpin;
+	private JSpinner adFemaleSpin;
 	private JSpinner chOver8Spin;
 	private JSpinner chUnder8Spin;
 	private JButton addHouseholdButton;
@@ -46,6 +47,13 @@ public class GUI {
 	private JLabel otherNeedsLabel;
 	private JLabel calNeedsLabel;
     private ListSelectionModel listSelectionModel;
+    private DefaultListModel listModel;
+    
+    private ClientList cl;
+    private FoodInv inv;
+    
+    private Order order;
+    private int editingInd = -1;
 
 
 	public static void main(String[] args) {
@@ -74,7 +82,7 @@ public class GUI {
 	 */
 	private void initialize() {
 		frmAddHouseholdsTo = new JFrame();
-		frmAddHouseholdsTo.setTitle("Add Households to Order");
+		frmAddHouseholdsTo.setTitle("Inventory Application");
 		frmAddHouseholdsTo.setBounds(100, 100, 614, 462);
 		frmAddHouseholdsTo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAddHouseholdsTo.getContentPane().setLayout(new CardLayout(0, 0));
@@ -91,6 +99,18 @@ public class GUI {
 		JButton newOrderButton = new JButton("New Order...");
 		newOrderButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				//Get most up-to-date Food Inventory and Client List from the database
+				cl = new ClientList();
+				inv = new FoodInv();
+				
+				cl.loadFromDB();
+				inv.loadFromDB();
+				
+				//Create new order
+				order = new Order(inv);
+				
+				frmAddHouseholdsTo.setTitle("Add Households to Order");
 				CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
 				c1.next(frmAddHouseholdsTo.getContentPane());
 				
@@ -129,10 +149,11 @@ public class GUI {
 		scrollPane.setBounds(13, 11, 429, 353);
 		houseListCard.add(scrollPane);
 		
-		DefaultListModel listModel = new DefaultListModel();
-		listModel.addElement("Household 1");
-		listModel.addElement("66 Aspen Hills Way");
-		listModel.addElement("Household 2");
+		listModel = new DefaultListModel();
+		//listModel.addElement("Household 1");
+		//listModel.addElement("66 Aspen Hills Way");
+		//listModel.addElement("Household 2");
+		//listModel.addElement("TEST?");
 		
 		JList houseList = new JList(listModel);
 	    listSelectionModel = houseList.getSelectionModel();
@@ -162,22 +183,17 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				//fill form with correct values
 
-				//adMaleSpin.setValue(10);
+				int index = houseList.getSelectedIndex();
+				Household editing = order.getHousehold(index);
+				String houseName = (String) listModel.elementAt(index);
+				nameText.setText(houseName);
+				loadToHouseForm(order.getHousehold(index));
 				
-				
+				editingInd = index; //so save button knows where to insert the new household
 				// TO MAKE EASY WE ALWAYS DELETE OLD ONE AND ADD NEW
 				
 				
-				//if(houseList.getSelectedIndex() <= 0) {
-				//	btnEditHousehold.setEnabled(false);
-					
-				//}
-		        int index = houseList.getSelectedIndex();
-
 				
-				String houseName = (String) listModel.elementAt(index);
-				//listModel.get(s)
-				nameText.setText(houseName);
 				
 				CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
 				c1.last(frmAddHouseholdsTo.getContentPane());
@@ -196,7 +212,7 @@ public class GUI {
 				
 				CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
 				c1.last(frmAddHouseholdsTo.getContentPane());
-				frmAddHouseholdsTo.setTitle("Edit Household");
+				frmAddHouseholdsTo.setTitle("Add Household");
 				
 				
 
@@ -242,7 +258,8 @@ public class GUI {
 				
 				int index = houseList.getSelectedIndex();
 			    listModel.remove(index);
-
+			    order.removeHousehold(index);
+			    
 			    int size = listModel.getSize();
 
 			    if (size == 0) { //Nobody's left, disable remove.
@@ -291,6 +308,8 @@ public class GUI {
 				// 	CHECK THAT INPUT IS ALL GOOD
 				
 				//  NEEDS TO PUT BACK INTO SAME OBJECT IF IT'S AN EDIT AND NOT NEW
+							
+				
 				String houseName = nameText.getText();
 				if(houseName.length() == 0) {
 					JOptionPane.showMessageDialog(frmAddHouseholdsTo,
@@ -298,7 +317,17 @@ public class GUI {
 						    "Check input",
 						    JOptionPane.ERROR_MESSAGE);
 				}else {
-					listModel.add(0, houseName);					
+					Household hh = getValuesFromForm();
+					if(editingInd != -1) {
+						listModel.remove(editingInd);
+						order.removeHousehold(editingInd);
+						order.addHousehold(editingInd, hh);	
+						listModel.add(editingInd, houseName);
+						editingInd = -1;
+					}else {
+						order.addHousehold(hh);
+						listModel.add(listModel.getSize(), houseName);
+					}
 					resetHouseForm();
 
 				}
@@ -318,6 +347,7 @@ public class GUI {
 				CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
 				c1.first(frmAddHouseholdsTo.getContentPane());
 				
+				editingInd = -1; //in case we were editing
 				resetHouseForm();
 			}
 		});
@@ -327,7 +357,7 @@ public class GUI {
 		adMaleSpin = new JSpinner();
 		adMaleSpin.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				fibreNeedsLabel.setText("Fe #");
+				showNeeds(getValuesFromForm());
 			}
 		});
 		adMaleSpin.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
@@ -335,21 +365,20 @@ public class GUI {
 		houseEditCard.add(adMaleSpin);
 		
 		
-		AdFemaleSpin = new JSpinner();
-		AdFemaleSpin.addChangeListener(new ChangeListener() {
+		adFemaleSpin = new JSpinner();
+		adFemaleSpin.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				proNeedsLabel.setText("Fe #");
+				showNeeds(getValuesFromForm());
 			}
 		});
-		AdFemaleSpin.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		AdFemaleSpin.setBounds(52, 151, 41, 33);
-		houseEditCard.add(AdFemaleSpin);
+		adFemaleSpin.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		adFemaleSpin.setBounds(52, 151, 41, 33);
+		houseEditCard.add(adFemaleSpin);
 		
 		chOver8Spin = new JSpinner();
 		chOver8Spin.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				calculateNeeds();
-				fibreNeedsLabel.setText("chO8");
+				showNeeds(getValuesFromForm());
 			}
 		});
 		chOver8Spin.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
@@ -359,7 +388,7 @@ public class GUI {
 		chUnder8Spin = new JSpinner();
 		chUnder8Spin.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				fvNeedsLabel.setText("chO8");
+				showNeeds(getValuesFromForm());
 			}
 		});
 		chUnder8Spin.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
@@ -442,25 +471,75 @@ public class GUI {
 		CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
 		c1.show(frmAddHouseholdsTo.getContentPane(), "name_694640061988500");
 		adMaleSpin.setValue(0);
-		AdFemaleSpin.setValue(0);
+		adFemaleSpin.setValue(0);
 		chOver8Spin.setValue(0);
 		chUnder8Spin.setValue(0);
 
 	}
 	
-	private void loadToHouseForm(/*Household hs*/) {
-		//from DB
+	private void loadToHouseForm(Household hs) {
+		ArrayList<Client> clients = hs.getClientList();
+		
+		int adMale = 0;
+		int adFemale = 0;
+		int chOver8 = 0;
+		int chUnder8 = 0;
+		
+		for(Client c : clients) {
+			if(c.getID() == 1) {
+				adMale++;
+			}
+			else if(c.getID() == 2) {
+				adFemale++;
+			}
+			else if(c.getID() == 3) {
+				chOver8++;
+			}
+			else if(c.getID() == 4) {
+				chUnder8++;
+			}
+		}
+		
+		adMaleSpin.setValue(adMale);
+		adFemaleSpin.setValue(adFemale);
+		chOver8Spin.setValue(chOver8);
+		chUnder8Spin.setValue(chUnder8);
+
 	}
 	
-	private void calculateNeeds() {
+	private void showNeeds(Household hs) {
 		//used for spinner events
-		fibreNeedsLabel.setText("rc");
-		fvNeedsLabel.setText("rc");
-		proNeedsLabel.setText("rc");
-		otherNeedsLabel.setText("rc");
-		calNeedsLabel.setText("rc");
+		//hs.updateNeeds();
+		Nutrition needs = hs.getTotalNeeds();
+		
+		
+		
+		fibreNeedsLabel.setText(Integer.toString(needs.getGrain()));
+		fvNeedsLabel.setText(Integer.toString(needs.getFruitsVeggies()));
+		proNeedsLabel.setText(Integer.toString(needs.getProtein()));
+		otherNeedsLabel.setText(Integer.toString(needs.getOther()));
+		calNeedsLabel.setText(Integer.toString(needs.getCalories()));
+		
 
-
+	}
+	
+	private Household getValuesFromForm() {
+		Household hh = new Household();
+		
+		for(int i = 0; i < (int)adMaleSpin.getValue(); i++) {
+			hh.addClient(cl.getClient(1));
+		}
+		for(int i = 0; i < (int)adFemaleSpin.getValue(); i++) {
+			hh.addClient(cl.getClient(2));
+		}
+		for(int i = 0; i < (int)chOver8Spin.getValue(); i++) {
+			hh.addClient(cl.getClient(3));
+		}
+		for(int i = 0; i < (int)chUnder8Spin.getValue(); i++) {
+			hh.addClient(cl.getClient(4));
+		}
+				
+		return hh;
 	}
 	
 }

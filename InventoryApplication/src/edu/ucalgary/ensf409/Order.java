@@ -49,8 +49,22 @@ public class Order {
 		houseHolds.add(house);
 	}
 	
+<<<<<<< Upstream, based on origin/main
 	public ArrayList<Household> getHouseholds() {
 		return this.houseHolds;
+=======
+	public void addHousehold(int index, Household house) {
+		
+		houseHolds.add(index, house);
+	}
+	
+	public Household getHousehold(int index) {
+		return houseHolds.get(index);
+	}
+	
+	public void removeHousehold(int index) {
+		houseHolds.remove(index);
+>>>>>>> 2c1132d household form shows current needs, other improvements to GUI
 	}
 	
 	public FoodInv getInventory() {

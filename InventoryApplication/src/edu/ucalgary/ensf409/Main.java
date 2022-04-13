@@ -17,7 +17,27 @@ public class Main {
 		
 		Household two = new Household("two");
 		two.addClient(cl.getClient(1));
-	
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		two.addClient(cl.getClient(1));
+		
 		order1.addHousehold(one);
 		order1.addHousehold(two);
 		
@@ -43,7 +63,7 @@ public class Main {
 		}
 		 
 		OrderForm form = new OrderForm(order1);
-		System.out.println(form.printOrder()); 
+		System.out.println(form.stringOrder()); 
 
 	}
 

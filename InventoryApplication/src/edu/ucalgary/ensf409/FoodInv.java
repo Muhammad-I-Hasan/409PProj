@@ -23,6 +23,10 @@ public class FoodInv extends DatabaseConnection{
 		
 		// TODO Auto-generated constructor stub
 	}
+	
+	public void setInv(ArrayList<Food> inv) {
+		this.currFood = inv;
+	}
 
 	public void addFood(Food add) {
 		currFood.add(add);

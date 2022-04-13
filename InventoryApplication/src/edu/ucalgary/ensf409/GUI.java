@@ -219,51 +219,63 @@ public class GUI {
 		createOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				try {
-					order.makeAndFinalizeOrder();
-					
-					Object[] options = {"Create new order",
-		                    "View order form",
-		                    "Exit"};
-					int n = JOptionPane.showOptionDialog(frmAddHouseholdsTo,
-						    "Order successfully created ",
-						    "Success",
-						    JOptionPane.YES_NO_CANCEL_OPTION,
-						    JOptionPane.QUESTION_MESSAGE,
-						    null,
-						    options,
-						    options[2]);
-					
-					String orderName = orderNameField.getText();
-					OrderForm form = new OrderForm(order, orderName);
-					form.saveOrderForm();
-					
-					if(n == 0) {
-						//MUST RESET ORDER LIST
-						listModel.clear();
-						orderNameField.setText("");
-						resetHouseForm();
-						CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
-						c1.first(frmAddHouseholdsTo.getContentPane());
-					}else if (n == 1) {
-						System.out.println(form.stringOrder());
-						//JOptionPane.showMessageDialog(frmAddHouseholdsTo, form.stringOrder());
-						viewOrderForm vf = new viewOrderForm(orderName + " Order Form", form.stringOrder());
-						vf.setVisible(true);
-					}else if (n == 2) {
-						frmAddHouseholdsTo.dispatchEvent(new WindowEvent(frmAddHouseholdsTo, WindowEvent.WINDOW_CLOSING));
-					}
-				} catch (InsufficientInventoryException exc) {
-					inv = order.getInventory();
-					/*for (Household i: order1.getHouseholds()) {
-						i.getHamper().getContent().clear();
-					}*/
-					exc.printStackTrace();
-					
+				//check that order has a name (important for order form file creation)
+				if(orderNameField.getText().length() == 0) {
 					JOptionPane.showMessageDialog(frmAddHouseholdsTo,
-						    "Failed to create \"Household 1\" hamper.",
-						    "Hamper creation error",
+						    "The order must have a name.",
+						    "Check input",
 						    JOptionPane.ERROR_MESSAGE);
+				}else {
+					
+					try {
+						order.makeAndFinalizeOrder();
+						
+						Object[] options = {"Create new order",
+								"View order form",
+						"Exit"};
+						int n = JOptionPane.showOptionDialog(frmAddHouseholdsTo,
+								"Order successfully created ",
+								"Success",
+								JOptionPane.YES_NO_CANCEL_OPTION,
+								JOptionPane.QUESTION_MESSAGE,
+								null,
+								options,
+								options[2]);
+						
+						String orderName = orderNameField.getText();
+						OrderForm form = new OrderForm(order, orderName);
+						form.saveOrderForm();
+						
+						if(n == 0) {
+							//MUST RESET ORDER LIST
+							listModel.clear();
+							orderNameField.setText("");
+							resetHouseForm();
+							CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
+							c1.first(frmAddHouseholdsTo.getContentPane());
+						}else if (n == 1) {
+							System.out.println(form.stringOrder());
+							//JOptionPane.showMessageDialog(frmAddHouseholdsTo, form.stringOrder());
+							viewOrderForm vf = new viewOrderForm(orderName + " Order Form", form.stringOrder());
+							vf.setVisible(true);
+						}else if (n == 2) {
+							frmAddHouseholdsTo.dispatchEvent(new WindowEvent(frmAddHouseholdsTo, WindowEvent.WINDOW_CLOSING));
+						}
+					} catch (InsufficientInventoryException exc) {
+						inv = order.getInventory();
+						
+						//Clears household hampers
+						for (Household i : order.getHouseholds()) {
+							i.getHamper().getContent().clear();
+						}
+						
+						exc.printStackTrace();
+						// TODO forward error message
+						JOptionPane.showMessageDialog(frmAddHouseholdsTo,
+								exc.getMessage(),
+								"Hamper creation error",
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
 								
 			}
@@ -281,7 +293,7 @@ public class GUI {
 			    
 			    int size = listModel.getSize();
 
-			    if (size == 0) { //Nobody's left, disable remove.
+			    if (size == 0) { //No households's left, disable remove.
 			    	btnRemoveSelected.setEnabled(false);
 
 			    } else { //Select an index.
@@ -347,7 +359,7 @@ public class GUI {
 				String houseName = nameText.getText();
 				if(houseName.length() == 0) {
 					JOptionPane.showMessageDialog(frmAddHouseholdsTo,
-						    "The household must have a unique name.",
+						    "The household must have a name.",
 						    "Check input",
 						    JOptionPane.ERROR_MESSAGE);
 				}else {

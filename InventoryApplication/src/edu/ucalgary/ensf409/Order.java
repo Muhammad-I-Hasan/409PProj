@@ -40,7 +40,8 @@ public class Order {
 		
 		
 		for(Household i: houseHolds) {
-			makeHamper(i, copy);
+			if (!i.getClientList().isEmpty())
+				makeHamper(i, copy);
 		}
 		inventory.updateDB();
 	}
@@ -107,8 +108,8 @@ public class Order {
 		for(int i =currentPosition; i < inventoryList.size(); i++) {
 			foodList.add(inventoryList.get(i));
 			Nutrition temp =NutritionValuesOfFoodList(foodList);
-			if(temp.getGrain() > nutrVals.getGrain() && temp.getCalories() > nutrVals.getCalories() && temp.getFruitsVeggies() > nutrVals.getFruitsVeggies() && 
-					temp.getOther() > nutrVals.getOther() && temp.getProtein() > nutrVals.getProtein()) {
+			if(temp.getGrain() >= nutrVals.getGrain() && temp.getCalories() >= nutrVals.getCalories() && temp.getFruitsVeggies() >= nutrVals.getFruitsVeggies() && 
+					temp.getOther() >= nutrVals.getOther() && temp.getProtein() >= nutrVals.getProtein()) {
 				int excess = (temp.getCalories() - nutrVals.getCalories());
 				if (excess < max) {
 					max = excess;

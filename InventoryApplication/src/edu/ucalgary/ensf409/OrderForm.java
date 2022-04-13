@@ -11,8 +11,8 @@ public class OrderForm {
 	public OrderForm(Order order) {
 		this.order = order;
 	}
-	public void printOrderForm() {
-		String order = printOrder();
+	public void saveOrderForm() {
+		String order = stringOrder();
 		File file = new File("OrderForm.txt");
 		PrintWriter print = null;
 		try {
@@ -24,7 +24,7 @@ public class OrderForm {
 		print.write(order);
 		print.close();
 	}
-	public String printOrder() {
+	public String stringOrder() {
 		String households = "";
 		String order = "";
 		//String form = "";

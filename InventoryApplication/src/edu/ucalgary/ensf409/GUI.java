@@ -258,7 +258,7 @@ public class GUI {
 						i.getHamper().getContent().clear();
 					}*/
 					exc.printStackTrace();
-
+					
 					JOptionPane.showMessageDialog(frmAddHouseholdsTo,
 						    "Failed to create \"Household 1\" hamper.",
 						    "Hamper creation error",

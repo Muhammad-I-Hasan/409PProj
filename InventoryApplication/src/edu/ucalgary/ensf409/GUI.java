@@ -2,19 +2,14 @@ package edu.ucalgary.ensf409;
 import java.awt.EventQueue;
 
 import javax.swing.*;
-import javax.swing.BoxLayout;
-import javax.swing.JTree;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
-import javax.swing.JScrollBar;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import java.awt.GridLayout;
 import javax.swing.JLabel;
 import java.awt.CardLayout;
 import java.awt.Font;
@@ -22,7 +17,6 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -54,6 +48,7 @@ public class GUI {
     
     private Order order;
     private int editingInd = -1;
+    private JTextField orderNameField;
 
 
 	public static void main(String[] args) {
@@ -82,6 +77,7 @@ public class GUI {
 	 */
 	private void initialize() {
 		frmAddHouseholdsTo = new JFrame();
+		frmAddHouseholdsTo.setResizable(false);
 		frmAddHouseholdsTo.setTitle("Inventory Application");
 		frmAddHouseholdsTo.setBounds(100, 100, 614, 462);
 		frmAddHouseholdsTo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -99,7 +95,7 @@ public class GUI {
 		JButton newOrderButton = new JButton("New Order...");
 		newOrderButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				///TODO error message if cannot connect to database
 				//Get most up-to-date Food Inventory and Client List from the database
 				cl = new ClientList();
 				inv = new FoodInv();
@@ -146,7 +142,7 @@ public class GUI {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(13, 11, 429, 353);
+		scrollPane.setBounds(13, 50, 429, 314);
 		houseListCard.add(scrollPane);
 		
 		listModel = new DefaultListModel();
@@ -201,24 +197,21 @@ public class GUI {
 
 			}
 		});
-		btnEditHousehold.setBounds(454, 71, 136, 26);
+		btnEditHousehold.setBounds(456, 100, 136, 26);
 		houseListCard.add(btnEditHousehold);
 		btnEditHousehold.setEnabled(false);
 		
 		addHouseholdButton = new JButton("Add Household");
-		addHouseholdButton.setBounds(454, 32, 136, 26);
+		addHouseholdButton.setBounds(456, 61, 136, 26);
 		addHouseholdButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
 				c1.last(frmAddHouseholdsTo.getContentPane());
 				frmAddHouseholdsTo.setTitle("Add Household");
-				
-				
 
 			}
 			
-			//list
 		});
 		houseListCard.add(addHouseholdButton);
 		
@@ -241,14 +234,22 @@ public class GUI {
 						    options,
 						    options[2]);
 					
+					String orderName = orderNameField.getText();
+					OrderForm form = new OrderForm(order, orderName);
+					form.saveOrderForm();
+					
 					if(n == 0) {
+						//MUST RESET ORDER LIST
+						listModel.clear();
+						orderNameField.setText("");
 						resetHouseForm();
 						CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
 						c1.first(frmAddHouseholdsTo.getContentPane());
 					}else if (n == 1) {
-						OrderForm form = new OrderForm(order);
-						System.out.println(form.printOrder());
-						JOptionPane.showMessageDialog(frmAddHouseholdsTo, form.printOrder());
+						System.out.println(form.stringOrder());
+						//JOptionPane.showMessageDialog(frmAddHouseholdsTo, form.stringOrder());
+						viewOrderForm vf = new viewOrderForm(orderName + " Order Form", form.stringOrder());
+						vf.setVisible(true);
 					}else if (n == 2) {
 						frmAddHouseholdsTo.dispatchEvent(new WindowEvent(frmAddHouseholdsTo, WindowEvent.WINDOW_CLOSING));
 					}
@@ -295,21 +296,36 @@ public class GUI {
 				
 			}
 		});
-		btnRemoveSelected.setBounds(452, 132, 138, 26);
+		btnRemoveSelected.setBounds(454, 161, 138, 26);
 		houseListCard.add(btnRemoveSelected);
 		btnRemoveSelected.setEnabled(false);
 		
-		JButton createHamper = new JButton("Create Hamper");
+		JButton createHamper = new JButton("Return to Menu");
 		createHamper.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(frmAddHouseholdsTo,
+				/*JOptionPane.showMessageDialog(frmAddHouseholdsTo,
 					    "Failed to create \"Household 1\" hamper.",
 					    "Hamper creation error",
 					    JOptionPane.ERROR_MESSAGE);
+				*/
+				listModel.clear();
+				orderNameField.setText("");
+				resetHouseForm();
+				CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
+				c1.first(frmAddHouseholdsTo.getContentPane());
 			}
 		});
 		createHamper.setBounds(181, 376, 127, 39);
 		houseListCard.add(createHamper);
+		
+		orderNameField = new JTextField();
+		orderNameField.setBounds(104, 12, 338, 26);
+		houseListCard.add(orderNameField);
+		orderNameField.setColumns(10);
+		
+		JLabel orderNameLabel = new JLabel("Order Name:");
+		orderNameLabel.setBounds(12, 17, 90, 16);
+		houseListCard.add(orderNameLabel);
 		
 		JPanel houseEditCard = new JPanel();
 		frmAddHouseholdsTo.getContentPane().add(houseEditCard, "name_696550095204400");
@@ -460,23 +476,23 @@ public class GUI {
 		lblNewLabel_3.setBounds(321, 242, 57, 16);
 		houseEditCard.add(lblNewLabel_3);
 		
-		fibreNeedsLabel = new JLabel("##");
+		fibreNeedsLabel = new JLabel("0");
 		fibreNeedsLabel.setBounds(470, 129, 57, 16);
 		houseEditCard.add(fibreNeedsLabel);
 		
-		fvNeedsLabel = new JLabel("##");
+		fvNeedsLabel = new JLabel("0");
 		fvNeedsLabel.setBounds(470, 159, 57, 16);
 		houseEditCard.add(fvNeedsLabel);
 		
-		proNeedsLabel = new JLabel("##");
+		proNeedsLabel = new JLabel("0");
 		proNeedsLabel.setBounds(470, 190, 57, 16);
 		houseEditCard.add(proNeedsLabel);
 		
-		otherNeedsLabel = new JLabel("##");
+		otherNeedsLabel = new JLabel("0");
 		otherNeedsLabel.setBounds(470, 218, 57, 16);
 		houseEditCard.add(otherNeedsLabel);
 		
-		calNeedsLabel = new JLabel("##");
+		calNeedsLabel = new JLabel("0");
 		calNeedsLabel.setBounds(470, 242, 57, 16);
 		houseEditCard.add(calNeedsLabel);
 		

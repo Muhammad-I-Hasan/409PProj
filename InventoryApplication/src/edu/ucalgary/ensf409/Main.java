@@ -65,7 +65,7 @@ public class Main {
 			System.out.println(i.getName()); 
 		}
 		 
-		OrderForm form = new OrderForm(order1);
+		OrderForm form = new OrderForm(order1, "order1");
 		System.out.println(form.stringOrder()); 
 
 	}

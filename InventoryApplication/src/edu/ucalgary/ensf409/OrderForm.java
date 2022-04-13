@@ -7,13 +7,15 @@ import java.io.PrintWriter;
 public class OrderForm {
 
 	private final Order order;
+	private String name;
 	
-	public OrderForm(Order order) {
+	public OrderForm(Order order, String name) {
 		this.order = order;
+		this.name = name;
 	}
 	public void saveOrderForm() {
 		String order = stringOrder();
-		File file = new File("OrderForm.txt");
+		File file = new File(this.name + ".txt");
 		PrintWriter print = null;
 		try {
 			print = new PrintWriter(file);

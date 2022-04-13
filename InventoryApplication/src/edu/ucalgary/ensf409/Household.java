@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 public class Household {
 	
-	private String name = "temp";
+	private String name;
 	private ArrayList<Client> clientList = null;
 	private Nutrition totalNeeds;
 	private Hamper possibleHamper;
 	
-	public Household() {
+	public Household(String name) {
+		this.name = name;
 		this.clientList = new ArrayList<Client>();
 		this.totalNeeds = new Nutrition(0,0,0,0,0);
 		this.possibleHamper = new Hamper();

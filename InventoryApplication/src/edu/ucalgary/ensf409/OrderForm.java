@@ -8,7 +8,7 @@ public class OrderForm {
 		this.order = order;
 	}
 	
-	public String printReport() {
+	public String printOrder() {
 		String households = "";
 		String order = "";
 		//String form = "";

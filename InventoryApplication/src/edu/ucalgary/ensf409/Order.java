@@ -33,8 +33,13 @@ public class Order {
 	}
 	
 	public void makeAndFinalizeOrder() throws InsufficientInventoryException {
+		Food [] copy = new Food[inventory.getFoodList().size()];//added fix starts here
+		for (int i = 0; i < copy.length; i++) {
+			copy[i] = inventory.getFoodList().get(i);
+		}
+		FoodInv cpy = new FoodInv(copy);//added fix ends here
 		for(Household i: houseHolds) {
-			makeHamper(i);
+			makeHamper(i, cpy);
 		}
 		inventory.updateDB();
 	}
@@ -53,14 +58,20 @@ public class Order {
 		return this.inventory;
 	}
 	
-	public void makeHamper(Household house) throws InsufficientInventoryException {
+	public void makeHamper(Household house, FoodInv copy) throws InsufficientInventoryException {
 		ArrayList<Food> inventoryList = inventory.getFoodList();
+		
 		Nutrition nutr = house.getTotalNeeds();
 		ArrayList<Food> foodList = new ArrayList<>();
 		ArrayList<Food> bestFoodList = new ArrayList<>();
 		
 		int minimum = recursiveImplementationMakeHamperHelper(inventoryList,foodList,bestFoodList,nutr,0,Integer.MAX_VALUE);
-		if(minimum == Integer.MAX_VALUE) {throw new InsufficientInventoryException();}
+		if(minimum == Integer.MAX_VALUE) {
+			this.inventory = copy;//added fix
+			
+				
+			throw new InsufficientInventoryException();
+			}
 //		makeHamperHelper(inventoryList,temp);
 		System.out.println(minimum);
 		//logic goes here

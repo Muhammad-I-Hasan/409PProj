@@ -51,6 +51,9 @@ public class Main {
 			order1.makeAndFinalizeOrder();
 		} catch (InsufficientInventoryException e) {
 			inv = order1.getInventory();
+			for (Household i : order1.getHouseholds()) {
+				i.getHamper().getContent().clear();
+			}
 			/*for (Household i: order1.getHouseholds()) {
 				i.getHamper().getContent().clear();
 			}*/

@@ -226,27 +226,45 @@ public class GUI {
 		createOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				Object[] options = {"Create new order",
-	                    "View order form",
-	                    "Exit"};
-				int n = JOptionPane.showOptionDialog(frmAddHouseholdsTo,
-					    "Order successfully created ",
-					    "Success",
-					    JOptionPane.YES_NO_CANCEL_OPTION,
-					    JOptionPane.QUESTION_MESSAGE,
-					    null,
-					    options,
-					    options[2]);
-				
-				if(n == 0) {
-					resetHouseForm();
-					CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
-					c1.first(frmAddHouseholdsTo.getContentPane());
+				try {
+					order.makeAndFinalizeOrder();
 					
-				}else if (n == 2) {
-					frmAddHouseholdsTo.dispatchEvent(new WindowEvent(frmAddHouseholdsTo, WindowEvent.WINDOW_CLOSING));
+					Object[] options = {"Create new order",
+		                    "View order form",
+		                    "Exit"};
+					int n = JOptionPane.showOptionDialog(frmAddHouseholdsTo,
+						    "Order successfully created ",
+						    "Success",
+						    JOptionPane.YES_NO_CANCEL_OPTION,
+						    JOptionPane.QUESTION_MESSAGE,
+						    null,
+						    options,
+						    options[2]);
+					
+					if(n == 0) {
+						resetHouseForm();
+						CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
+						c1.first(frmAddHouseholdsTo.getContentPane());
+					}else if (n == 1) {
+						OrderForm form = new OrderForm(order);
+						System.out.println(form.printOrder());
+						JOptionPane.showMessageDialog(frmAddHouseholdsTo, form.printOrder());
+					}else if (n == 2) {
+						frmAddHouseholdsTo.dispatchEvent(new WindowEvent(frmAddHouseholdsTo, WindowEvent.WINDOW_CLOSING));
+					}
+				} catch (InsufficientInventoryException exc) {
+					inv = order.getInventory();
+					/*for (Household i: order1.getHouseholds()) {
+						i.getHamper().getContent().clear();
+					}*/
+					exc.printStackTrace();
+
+					JOptionPane.showMessageDialog(frmAddHouseholdsTo,
+						    "Failed to create \"Household 1\" hamper.",
+						    "Hamper creation error",
+						    JOptionPane.ERROR_MESSAGE);
 				}
-				
+								
 			}
 		});
 		createOrder.setBounds(42, 376, 127, 39);
@@ -524,7 +542,7 @@ public class GUI {
 	}
 	
 	private Household getValuesFromForm() {
-		Household hh = new Household();
+		Household hh = new Household(nameText.getText());
 		
 		for(int i = 0; i < (int)adMaleSpin.getValue(); i++) {
 			hh.addClient(cl.getClient(1));

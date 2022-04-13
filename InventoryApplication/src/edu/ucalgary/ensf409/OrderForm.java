@@ -1,5 +1,9 @@
 package edu.ucalgary.ensf409;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 public class OrderForm {
 
 	private final Order order;
@@ -7,7 +11,19 @@ public class OrderForm {
 	public OrderForm(Order order) {
 		this.order = order;
 	}
-	
+	public void printOrderForm() {
+		String order = printOrder();
+		File file = new File("OrderForm.txt");
+		PrintWriter print = null;
+		try {
+			print = new PrintWriter(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		print.write(order);
+		print.close();
+	}
 	public String printOrder() {
 		String households = "";
 		String order = "";

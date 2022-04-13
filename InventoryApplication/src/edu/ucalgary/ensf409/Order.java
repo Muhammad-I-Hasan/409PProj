@@ -69,8 +69,8 @@ public class Order {
 		if(minimum == Integer.MAX_VALUE) {
 			this.inventory = copy;//added fix
 			
-				
-			throw new InsufficientInventoryException();
+			//System.out.println(house.getName());
+			throw new InsufficientInventoryException(house.getName());
 			}
 //		makeHamperHelper(inventoryList,temp);
 		System.out.println(minimum);

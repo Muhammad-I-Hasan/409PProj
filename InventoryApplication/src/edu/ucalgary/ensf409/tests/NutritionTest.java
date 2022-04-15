@@ -14,8 +14,8 @@ public class NutritionTest {
             100,//grains
             200,//fruits and veggies		
             300,//protein
-            400,//calories
-            500//other
+            400,//other
+            500//calories
     };
 	
 	@Test
@@ -49,16 +49,16 @@ public class NutritionTest {
 	}
 	@Test
 	public void testGetCalories() {
-		int expected = nutritionData[3];
+		int expected = nutritionData[4];
 		Nutrition test = new Nutrition(nutritionData[0],nutritionData[1],nutritionData[2],nutritionData[3],nutritionData[4]);
 		int result = test.getCalories();
 		assertEquals("getCalories did not return the correct result",expected,result);
 	}
 	@Test
 	public void testGetOthers() {
-		int expected = nutritionData[4];
+		int expected = nutritionData[3];
 		Nutrition test = new Nutrition(nutritionData[0],nutritionData[1],nutritionData[2],nutritionData[3],nutritionData[4]);
-		int result = test.getProtein();
+		int result = test.getOther();
 		assertEquals("getProtein did not return the correct result",expected,result);
 	}
 }	

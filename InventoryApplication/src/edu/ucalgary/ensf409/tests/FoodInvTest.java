@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.Test;
 
@@ -43,11 +44,11 @@ public class FoodInvTest {
 		
 		FoodInv test = new FoodInv(mantaray);
 //		Food toRemove = new Food(new Nutrition(12,23,34,45,56),"food3",1111);
-		
+		ArrayList<Food> expected = new ArrayList<Food>(Arrays.asList(mantaray));
 		ArrayList<Food> result = test.getFoodList();
 	
 		
-		assertEquals("test did not return the correct result",mantaray,result);
+		assertEquals("test did not return the correct result",expected,result);
 	}
 	
 	
@@ -77,10 +78,10 @@ public class FoodInvTest {
 	public void testremoveFood() {
 		
 		FoodInv test = new FoodInv(mantaray);
-		Food toRemove = new Food(new Nutrition(12,23,34,45,56),"food3",1111);
+//		Food toRemove = new Food(mantaray[2].getNutritionValues(),mantaray[2].getName(),mantaray[2].getID());
 		
 		
-		test.remove(toRemove);
+		test.remove(mantaray[2]);
 		int expected =2;
 		int result = test.getFoodList().size();
 	
@@ -122,7 +123,6 @@ public class FoodInvTest {
 		
 		FoodInv test = new FoodInv(mantaray);
 
-		//to remove does not exist
 		
 		test.remove(4);
 		int expected =3;

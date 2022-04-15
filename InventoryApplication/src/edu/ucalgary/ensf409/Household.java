@@ -45,13 +45,13 @@ public class Household {
 		int cal = 0;
 		
 		for (Client i: clientList) {
-			gr += i.getNutritionalNeeds().getGrain();
-			fv += i.getNutritionalNeeds().getFruitsVeggies();
-			pr += i.getNutritionalNeeds().getProtein();
-			other += i.getNutritionalNeeds().getOther();
-			cal += i.getNutritionalNeeds().getCalories();
+			gr += i.getNutritionalNeeds().getGrain() * 7;
+			fv += i.getNutritionalNeeds().getFruitsVeggies() * 7;
+			pr += i.getNutritionalNeeds().getProtein() * 7;
+			other += i.getNutritionalNeeds().getOther() * 7;
+			cal += i.getNutritionalNeeds().getCalories() * 7;
 		}
-		
+	
 		totalNeeds = new Nutrition(gr, fv, pr, other, cal);
 	}
 

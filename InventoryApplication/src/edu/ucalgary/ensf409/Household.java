@@ -56,7 +56,6 @@ public class Household {
 	}
 
 	public Hamper getHamper() {
-		// TODO Auto-generated method stub
 		return this.possibleHamper;
 	}
 }

@@ -21,11 +21,6 @@ public abstract class DatabaseConnection {
     	//empty construcotr since all the variables are final and the connection and resultSet object are set by the children of the class
     }
 	
-//	DatabaseConnection(String name, String password, String connection){
-//		this.USERNAME = name;
-//		this.PASSWORD = password;
-//		this.CONNECTION = connection;
-//	}
 	//closes the connection to the database
 	public void closeDB() {
 		try {

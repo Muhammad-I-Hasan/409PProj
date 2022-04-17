@@ -104,8 +104,8 @@ public class FoodInv extends DatabaseConnection{
 	            
 	            
 	            String query = "INSERT INTO available_food (ItemID, Name, GrainContent, FVContent, ProContent, Other, Calories) VALUES (?,?,?,?,?,?,?)";
-	            PreparedStatement myStmt = dbConnect.prepareStatement(query);
-	            for(Food i: currFood) {
+	            PreparedStatement myStmt = dbConnect.prepareStatement(query); //creates a prepared statement to reinsert the kept food back into the database
+	            for(Food i: currFood) {//loops through all the food still in the inventory after deletion of some when making the hampers
 	            	myStmt.setInt(1, i.getID());
 		            myStmt.setString(2, i.getName());
 		            myStmt.setInt(3, i.getNutritionValues().getGrain());
@@ -116,7 +116,7 @@ public class FoodInv extends DatabaseConnection{
 		            int rowCount = myStmt.executeUpdate();
 	            }		            
 	            
-	            //System.out.println("Rows affected: " + rowCount);
+	            
 	            
 	            myStmt.close();
 

@@ -120,7 +120,7 @@ public class GUI {
 				catch (Exception exc){
 					JOptionPane.showMessageDialog(frmAddHouseholdsTo,
 							"There was an error connecting to the database.\n"
-							+ "Check credentials. Look for details in Java console.\nError message: " + exc.getMessage(),
+							+ "Check credentials. Look for details in Java console.",
 							"Database Access Error",
 							JOptionPane.ERROR_MESSAGE);
 				}

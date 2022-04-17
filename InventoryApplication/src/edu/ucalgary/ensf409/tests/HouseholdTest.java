@@ -16,7 +16,9 @@ import org.junit.Before;
 
 public class HouseholdTest {
 	public HouseholdTest() {}
-
+	
+	
+	//Values and objects used by multiple tests
 	Nutrition n1 = new Nutrition(25, 95, 125, 75, 500);
 	Nutrition n2 = new Nutrition(50, 63, 150, 100, 1000);
 	Nutrition n3 = new Nutrition(55, 130, 100, 60, 750);
@@ -27,6 +29,7 @@ public class HouseholdTest {
 	Household h;
 	String expectedName = "Test household name";
 	
+	//Set up object common to each test
 	@Before
 	public void setup() {
 		
@@ -37,11 +40,13 @@ public class HouseholdTest {
 		
 	}
 	
+	//getName getter test
 	@Test
 	public void testGetName() {
 		assertEquals("getName returned an incorrect string", h.getName(), expectedName);
 	}
 	
+	//getClientList getter test
 	@Test
 	public void testGetClientList() {
 		ArrayList<Client> expected = new ArrayList<Client>();
@@ -52,6 +57,7 @@ public class HouseholdTest {
 				expected, h.getClientList());
 	}
 	
+	//Tests TotalNeeds algorithm
 	@Test
 	public void testGetTotalNeeds() {
 		Nutrition expected = new Nutrition(75, 158, 275, 175, 1500);
@@ -69,6 +75,7 @@ public class HouseholdTest {
 
 	}
 	
+	//Tests adding a client to an already existing household
 	@Test
 	public void testAddClient() {
 
@@ -85,7 +92,7 @@ public class HouseholdTest {
 		
 	}
 	
-	
+	//Testing TotalNeeds algorithm after a client has been added to an already existing household
 	@Test
 	public void testTotalNeedsAfterClientAdd() {
 		
@@ -107,6 +114,8 @@ public class HouseholdTest {
 		
 	}
 	
+	
+	//Testing hamper getter
 	@Test
 	public void testGetHamper() {
 		Nutrition addedFoodNutrition = new Nutrition(25, 50, 60, 70, 100);

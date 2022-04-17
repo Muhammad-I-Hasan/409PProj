@@ -16,6 +16,8 @@ public class ClientTest {
 	
 	int expectedID = 324;
 	
+	
+	// Sets up the client object before each test
 	@Before
 	public void setup() {
 		expectedClientNeeds = new Nutrition(16, 28, 26, 30, 2500);
@@ -23,6 +25,10 @@ public class ClientTest {
 		c = new Client(expectedID, expectedClientNeeds, expectedType);
 	}
 
+	/*
+	 * 	Simple tests for each getter of client
+	 */
+	
 	@Test
 	public void testGetID() {
 		assertEquals("getID returned an incorrect ID: ", expectedID, c.getID());

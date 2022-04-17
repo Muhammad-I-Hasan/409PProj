@@ -24,7 +24,12 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
 public class GUI {
-
+	
+	/*
+	 * Variables and objects that are used over multiple methods and so must be declared 
+	 * in advance. 
+	 */
+	
 	private JFrame frmAddHouseholdsTo;
 	private JTextField nameText;
 	private JSpinner adMaleSpin;
@@ -95,20 +100,31 @@ public class GUI {
 		JButton newOrderButton = new JButton("New Order...");
 		newOrderButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				///TODO error message if cannot connect to database
+
 				//Get most up-to-date Food Inventory and Client List from the database
 				cl = new ClientList();
 				inv = new FoodInv();
+				try {
+					cl.loadFromDB();
+					inv.loadFromDB();					
+
+					//Create new order
+					order = new Order(inv);
+					
+					//Switch to next card that acts as the main page of the program
+					frmAddHouseholdsTo.setTitle("Add Households to Order");
+					CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
+					c1.next(frmAddHouseholdsTo.getContentPane());
+				}
+				// In case of an problem connecting to the database.
+				catch (Exception exc){
+					JOptionPane.showMessageDialog(frmAddHouseholdsTo,
+							"There was an error connecting to the database.\n"
+							+ "Check credentials. Look for details in Java console.\nError message: " + exc.getMessage(),
+							"Database Access Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 				
-				cl.loadFromDB();
-				inv.loadFromDB();
-				
-				//Create new order
-				order = new Order(inv);
-				
-				frmAddHouseholdsTo.setTitle("Add Households to Order");
-				CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
-				c1.next(frmAddHouseholdsTo.getContentPane());
 				
 			}
 		});
@@ -122,6 +138,7 @@ public class GUI {
 		JButton exit1Button = new JButton("Exit");
 		exit1Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Closes window and program
 				frmAddHouseholdsTo.dispatchEvent(new WindowEvent(frmAddHouseholdsTo, WindowEvent.WINDOW_CLOSING));
 			}
 		});
@@ -146,11 +163,8 @@ public class GUI {
 		houseListCard.add(scrollPane);
 		
 		listModel = new DefaultListModel();
-		//listModel.addElement("Household 1");
-		//listModel.addElement("66 Aspen Hills Way");
-		//listModel.addElement("Household 2");
-		//listModel.addElement("TEST?");
-		
+
+		//Sets up list and checks to see if anything is selected so that buttons can be enabled/disabled
 		JList houseList = new JList(listModel);
 	    listSelectionModel = houseList.getSelectionModel();
 	    listSelectionModel.addListSelectionListener(new ListSelectionListener() {
@@ -158,11 +172,11 @@ public class GUI {
 	    	    if (e.getValueIsAdjusting() == false) {
 
 	    	        if (houseList.getSelectedIndex() == -1) {
-	    	        //No selection, disable fire button.
+	    	        //No selection, disable "... Selected" buttons.
 	    	            btnEditHousehold.setEnabled(false);
 	    	            btnRemoveSelected.setEnabled(false);
 	    	        } else {
-	    	        //Selection, enable the fire button.
+		    	    //No selection, disable "... Selected" buttons.
 	    	        	btnEditHousehold.setEnabled(true);
 	    	        	btnRemoveSelected.setEnabled(true);
 	    	        }
@@ -177,20 +191,22 @@ public class GUI {
 		btnEditHousehold = new JButton("Edit Selected");
 		btnEditHousehold.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				//fill form with correct values
-
 				int index = houseList.getSelectedIndex();
 				Household editing = order.getHousehold(index);
 				String houseName = (String) listModel.elementAt(index);
 				nameText.setText(houseName);
 				loadToHouseForm(order.getHousehold(index));
+	
+				/* "Editing" an household is actually just deleting the old one and creating a new one
+				 * in its place. The new one is placed in the same spot as the old one was
+				 */
 				
 				editingInd = index; //so save button knows where to insert the new household
-				// TO MAKE EASY WE ALWAYS DELETE OLD ONE AND ADD NEW
 				
 				
-				
-				
+				//Switch "Edit Household" card
 				CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
 				c1.last(frmAddHouseholdsTo.getContentPane());
 				frmAddHouseholdsTo.setTitle("Edit Household");
@@ -205,7 +221,7 @@ public class GUI {
 		addHouseholdButton.setBounds(456, 61, 136, 26);
 		addHouseholdButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				//Switch to "edit household" card
 				CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
 				c1.last(frmAddHouseholdsTo.getContentPane());
 				frmAddHouseholdsTo.setTitle("Add Household");
@@ -231,8 +247,8 @@ public class GUI {
 						order.makeAndFinalizeOrder();
 						
 						Object[] options = {"Create new order",
-								"View order form",
-						"Exit"};
+											"View order form",
+											"Exit"};
 						int n = JOptionPane.showOptionDialog(frmAddHouseholdsTo,
 								"Order successfully created ",
 								"Success",
@@ -246,31 +262,34 @@ public class GUI {
 						OrderForm form = new OrderForm(order, orderName);
 						form.saveOrderForm();
 						
-						if(n == 0) {
-							//MUST RESET ORDER LIST
+						if(n == 0) {// Create new order option
+							//Resets everything to empty state (e.g. household list, edit household form)
 							listModel.clear();
 							orderNameField.setText("");
 							resetHouseForm();
+							//Switch back to start card
 							CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
 							c1.first(frmAddHouseholdsTo.getContentPane());
-						}else if (n == 1) {
+						
+						}else if (n == 1) {//View order form option
+							//Opens new window "viewOrderForm" window that displays the generated form 
 							System.out.println(form.stringOrder());
-							//JOptionPane.showMessageDialog(frmAddHouseholdsTo, form.stringOrder());
 							viewOrderForm vf = new viewOrderForm(orderName + " Order Form", form.stringOrder());
 							vf.setVisible(true);
-						}else if (n == 2) {
+						
+						}else if (n == 2) {//Exit option
 							frmAddHouseholdsTo.dispatchEvent(new WindowEvent(frmAddHouseholdsTo, WindowEvent.WINDOW_CLOSING));
 						}
-					} catch (InsufficientInventoryException exc) {
+					
+					} catch (InsufficientInventoryException exc) {//If order was not able to be created
 						inv = order.getInventory();
 						
 						//Clears household hampers
 						for (Household i : order.getHouseholds()) {
 							i.getHamper().getContent().clear();
 						}
-						
+						//Shows error message with details about which household caused problems
 						exc.printStackTrace();
-						// TODO forward error message
 						JOptionPane.showMessageDialog(frmAddHouseholdsTo,
 								exc.getMessage(),
 								"Hamper creation error",
@@ -286,7 +305,8 @@ public class GUI {
 		btnRemoveSelected = new JButton("Remove Selected");
 		btnRemoveSelected.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				// Gets which household is selected and removes it from both the household list 
+				// and the household ArrayList of the order object
 				int index = houseList.getSelectedIndex();
 			    listModel.remove(index);
 			    order.removeHousehold(index);
@@ -315,14 +335,12 @@ public class GUI {
 		JButton createHamper = new JButton("Return to Menu");
 		createHamper.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*JOptionPane.showMessageDialog(frmAddHouseholdsTo,
-					    "Failed to create \"Household 1\" hamper.",
-					    "Hamper creation error",
-					    JOptionPane.ERROR_MESSAGE);
-				*/
+				//Resets everything to empty state (e.g. household list, edit household form)
+				
 				listModel.clear();
 				orderNameField.setText("");
 				resetHouseForm();
+				//Switch back to start card
 				CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
 				c1.first(frmAddHouseholdsTo.getContentPane());
 			}
@@ -351,26 +369,28 @@ public class GUI {
 		JButton Done = new JButton("Save");
 		Done.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// 	CHECK THAT INPUT IS ALL GOOD
-				
-				//  NEEDS TO PUT BACK INTO SAME OBJECT IF IT'S AN EDIT AND NOT NEW
 							
 				
 				String houseName = nameText.getText();
-				if(houseName.length() == 0) {
+				if(houseName.length() == 0) { 	//Checks that the household has a name, 
+												//repeated names are allowed
 					JOptionPane.showMessageDialog(frmAddHouseholdsTo,
 						    "The household must have a name.",
 						    "Check input",
 						    JOptionPane.ERROR_MESSAGE);
 				}else {
 					Household hh = getValuesFromForm();
-					if(editingInd != -1) {
+					if(editingInd != -1) { // Checks if it an edit or a new household
+						
+						//  Deleted selected household and placed a new household back into 
+						//  the same location as the deleted one
 						listModel.remove(editingInd);
 						order.removeHousehold(editingInd);
 						order.addHousehold(editingInd, hh);	
 						listModel.add(editingInd, houseName);
 						editingInd = -1;
 					}else {
+						// Adds a new household
 						order.addHousehold(hh);
 						listModel.add(listModel.getSize(), houseName);
 					}
@@ -389,11 +409,12 @@ public class GUI {
 		JButton btnNewButton_3 = new JButton("Cancel");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//switch back to main order card
 				frmAddHouseholdsTo.setTitle("Add Households to Order");
 				CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
 				c1.first(frmAddHouseholdsTo.getContentPane());
 				
-				editingInd = -1; //in case we were editing
+				editingInd = -1; //in case we were editing, reset this back to default of "new"
 				resetHouseForm();
 			}
 		});
@@ -510,8 +531,11 @@ public class GUI {
 		
 
 	}
+	/*
+	 * 		HELPER METHODS 
+	 */
 	
-	private void resetHouseForm() {
+	private void resetHouseForm() { // Resets the new/edit household forms
 		nameText.setText("");
 		frmAddHouseholdsTo.setTitle("Add Households to Order");
 		CardLayout c1 = (CardLayout) (frmAddHouseholdsTo.getContentPane().getLayout());
@@ -523,7 +547,7 @@ public class GUI {
 
 	}
 	
-	private void loadToHouseForm(Household hs) {
+	private void loadToHouseForm(Household hs) {//Loads values of existing household to edit form
 		ArrayList<Client> clients = hs.getClientList();
 		
 		int adMale = 0;
@@ -554,8 +578,8 @@ public class GUI {
 	}
 	
 	private void showNeeds(Household hs) {
-		//used for spinner events
-		//hs.updateNeeds();
+		// Used for spinner events. When a spinner changes it recalculates
+		// the household needs and displays them on labels on the GUI
 		Nutrition needs = hs.getTotalNeeds();
 		
 		
@@ -569,7 +593,7 @@ public class GUI {
 
 	}
 	
-	private Household getValuesFromForm() {
+	private Household getValuesFromForm() { //Gets values from household add/edit form
 		Household hh = new Household(nameText.getText());
 		
 		for(int i = 0; i < (int)adMaleSpin.getValue(); i++) {

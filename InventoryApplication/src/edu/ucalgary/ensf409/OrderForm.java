@@ -9,10 +9,18 @@ public class OrderForm {
 	private final Order order;
 	private String name;
 	
+	/**
+	 * Class Constructor.
+	 * @param order - order to be printed
+	 * @param name - name of orderform
+	 */
 	public OrderForm(Order order, String name) {
 		this.order = order;
 		this.name = name;
 	}
+	/**
+	 * Creates OrderForm .txt file
+	 */
 	public void saveOrderForm() {
 		String order = stringOrder();
 		File file = new File(this.name + ".txt");
@@ -26,6 +34,10 @@ public class OrderForm {
 		print.write(order);
 		print.close();
 	}
+	/**
+	 * String version of orderform.txt
+	 * @return String of Order Info
+	 */
 	public String stringOrder() {
 		String households = "";
 		String order = "";

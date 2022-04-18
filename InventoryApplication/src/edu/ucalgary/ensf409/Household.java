@@ -9,6 +9,10 @@ public class Household {
 	private Nutrition totalNeeds;
 	private Hamper possibleHamper;
 	
+	/**
+	 * Class Constructor.
+	 * @param name name of household
+	 */
 	public Household(String name) {
 		this.name = name;
 		this.clientList = new ArrayList<Client>();
@@ -16,26 +20,45 @@ public class Household {
 		this.possibleHamper = new Hamper();
 	}
 	
+	/**
+	 * Returns list of clients associated with the household
+	 * @return ArrayList<Client>
+	 */
 	public ArrayList<Client> getClientList() {
 		
 		return this.clientList;
 	}
 	
+	/**
+	 * Returns total needs of household for the week
+	 * @return Nutrition object of household
+	 */
 	public Nutrition getTotalNeeds() {
 		
 		return this.totalNeeds;
 	}
 	
+	/**
+	 * Returns household name as a string
+	 * @return String name of household
+	 */
 	public String getName() {
 		return this.name;
 	}
 	
+	/**
+	 * Adds a client to the household and updates total needs
+	 * @param client client to be added
+	 */
 	public void addClient(Client client) {
 		
 		clientList.add(client);
 		updateNeeds();
 	}
 	
+	/**
+	 * Updates total weekly needs of household by updating households nutrition object
+	 */
 	private void updateNeeds() {
 		
 		int gr = 0;
@@ -55,6 +78,10 @@ public class Household {
 		totalNeeds = new Nutrition(gr, fv, pr, other, cal);
 	}
 
+	/**
+	 * Returns a households designated hamper
+	 * @return Hamper
+	 */
 	public Hamper getHamper() {
 		return this.possibleHamper;
 	}

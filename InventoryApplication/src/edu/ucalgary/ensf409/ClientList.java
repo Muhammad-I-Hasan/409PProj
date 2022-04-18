@@ -8,6 +8,10 @@ public class ClientList extends DatabaseConnection{
 
 	private ArrayList<Client> clientList = null;
 	private final String TABLENAME ="DAILY_CLIENT_NEEDS";
+	
+	/**
+	 * Class Constructor.
+	 */
 	public ClientList() {
 		super();
 		
@@ -15,6 +19,10 @@ public class ClientList extends DatabaseConnection{
 		
 	}
 	
+	/**
+	 * Class Constructor with 1 parameter
+	 * @param id
+	 */
 	public Client getClient(int id) {
 		for(Client i : clientList) {
 			if (i.getID() == id) {
@@ -24,6 +32,9 @@ public class ClientList extends DatabaseConnection{
 		return null;
 	}
 	
+	/**
+	 * Loading Client Info into list from mySQL database
+	 */
 	@Override
 	public void loadFromDB() {
 		initializeConnection();
@@ -45,7 +56,10 @@ public class ClientList extends DatabaseConnection{
         closeDB();
 
 	}
-
+	
+	/**
+	 * Updates Client info in database (not used)
+	 */
 	@Override
 	public void updateDB() {
 		return;

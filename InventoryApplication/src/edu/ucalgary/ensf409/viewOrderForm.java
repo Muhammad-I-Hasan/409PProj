@@ -32,6 +32,8 @@ public class viewOrderForm extends JDialog {
 */
 	/**
 	 * Create the dialog.
+	 * @param name name of household
+	 * @param input orderform content
 	 */
 	public viewOrderForm(String name, String input) {
 		setTitle(name);

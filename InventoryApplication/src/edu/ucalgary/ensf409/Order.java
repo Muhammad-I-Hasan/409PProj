@@ -3,20 +3,26 @@ package edu.ucalgary.ensf409;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/*
- * TODO:
- * Throw Exceptions in Constructor - (try and catch?)
- * Throw Exception in makeAndFinalizeOrder
- * Create makeAndFinalizeOrder Function
- */
 
+/**
+ * Order object responsible for making the hampers for each household and creating the best possible hamper for each household 
+ * and also managing the inventory object that hold all the data of the database
+ * @author sasha
+ * @version 2.3
+ * @since 1.0
+ */
 
 public class Order {
 	
 	private ArrayList<Household> houseHolds = new ArrayList<Household>();
 	private FoodInv inventory;
 	
-	//constructor with FoodInv object that sets it to the inventory field
+
+	/**
+	 * constructor with FoodInv object that sets it to the inventory field 
+	 * @param inv = FoodInv object that is set to the invenory field
+	 * @throws IllegalArgumentException throws if the inv object inputed is null
+	 */
 	public Order(FoodInv inv) throws IllegalArgumentException {
 		if (inv == null) {
 			throw new IllegalArgumentException();
@@ -25,7 +31,13 @@ public class Order {
 			this.inventory = inv;
 		}
 	}
-	//creates Order object with HouseHolds and a FoodInv object
+	
+	/**
+	 * creates Order object with HouseHolds and a FoodInv object
+	 * @param inv - FoodInv object that is set to the inventory field
+	 * @param households - Household array that is set to the type Household ArrayList household field
+	 * @throws IllegalArgumentException throws if the inv object inputed is null
+	 */
 	public Order(FoodInv inv, Household [] households) throws IllegalArgumentException { 
 		
 		if (inv == null) {
@@ -40,7 +52,10 @@ public class Order {
 	
 		}
 	}
-	//method responsible for making and finalizing the households hampers and possible food items
+	/**
+	 * method responsible for starting the process of making hampers and also finalize the households hampers and possible food items
+	 * @throws InsufficientInventoryException if there was not enough food in the database to populate one of the households hampers
+	 */
 	public void makeAndFinalizeOrder() throws InsufficientInventoryException {
 		ArrayList<Food> copy = new ArrayList<Food>();
 //		///creates copy of the food from the database in case food was deleted from the actual arraylist but there was an exception in which it was not possible to create a combination of food
@@ -55,29 +70,57 @@ public class Order {
 		}
 		inventory.updateDB();// updates the inventory of the database if there were no problems with creating hampers for the household
 	}
-	//adds houseHold
+	/**
+	 * adds HouseHold house to the Household Arraylist households
+	 * @param house to be added to the Household ArrayList class field
+	 */
+	
 	public void addHousehold(Household house) {
 		
 		houseHolds.add(house);
 	}
-	//gets household arraylist
+	/**
+	 * gets households arrayList
+	 * @return the Household arrayList field households
+	 */
 	public ArrayList<Household> getHouseholds() {
 		return this.houseHolds;
 	}
-	//adds household by index
+
+	/**
+	 * adds Household by index
+	 * @param index - the index in teh arrayList house parameter is inserted
+	 * @param house - the Household object to be inserted
+	 */
 	public void addHousehold(int index, Household house) {
 		
 		houseHolds.add(index, house);
 	}
-	//gets household by index
+	/**
+	 * gets household by index
+	 * @param index in which the HouseHold object is got
+	 * @return the Household Object selected by the index
+	 */
 	public Household getHousehold(int index) {
+		if(index < 0 || index > houseHolds.size()) {
+			return null;
+		}
 		return houseHolds.get(index);
 	}
-	//removes household by index
+	/**
+	 * removes household by index
+	 * @param index that removes the houseHold
+	 */
 	public void removeHousehold(int index) {
+		if(index < 0 || index > houseHolds.size()) {
+			return;
+		}
 		houseHolds.remove(index);
 	}
-	//get the foodInv object 
+	/**
+	 * getter that gets the foodInv object 
+	 * @return the foodInv object 
+	 */
 	public FoodInv getInventory() {
 	
 		return this.inventory;
@@ -85,7 +128,7 @@ public class Order {
 	
 	
 	/**
-	 * 
+	 * method that makes the hamper for each individual hamper - calls recursiveImplementationMakeHamperHelper to actually make the hampers
 	 * @param house - current household
 	 * @param copy - copy of the database items in case there is a need to rest
 	 * @throws InsufficientInventoryException - if there is no possible combinations of items that satisy the clients needs
@@ -161,6 +204,12 @@ public class Order {
 	}
 	
 	
+	/**
+	 * private helper method used to calculate the nutritional values of the foodlist used in recursiveImplementationMakeHamperHelper
+	 * returns an Nutrition object containing the values of the foodlist
+	 * @param foodlist arrayList of food to create a nutrtion object with
+	 * @return nutrition object that contains the nutritional values of the foodlist
+	 */
 	//private helper method used to calculate the nutritional values of the foodlist used in recursiveImplementationMakeHamperHelper
 	//returns an Nutrition object containing the values of the foodlist
 	private Nutrition NutritionValuesOfFoodList(ArrayList<Food> foodlist) {

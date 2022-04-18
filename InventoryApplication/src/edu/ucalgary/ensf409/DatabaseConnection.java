@@ -5,6 +5,8 @@ import java.sql.*;
 /**
  * 
  * @author sasha
+ * @version 1.3
+ * @since 1.0
  *	abstract class that provides connection to the database to whichever class extends it
  */
 
@@ -17,11 +19,15 @@ public abstract class DatabaseConnection {
 	protected Connection dbConnect;
     protected ResultSet results;
 	
+    /**
+     * empty construcotr since all the variables are final and the connection and resultSet object are set by the children of the class
+     */
     public DatabaseConnection(){
-    	//empty construcotr since all the variables are final and the connection and resultSet object are set by the children of the class
+    
     }
-	
-	//closes the connection to the database
+	/**
+	 *	closes the connection to the database 
+	 */
 	public void closeDB() {
 		try {
 			dbConnect.close();
@@ -31,7 +37,10 @@ public abstract class DatabaseConnection {
 			e.printStackTrace();
 		}
 	}
-	//initalizes connection tot he database
+	/**
+	 * initalizes connection to the database 
+	 */
+
 	public void initializeConnection(){
     	try{
             dbConnect = DriverManager.getConnection(this.CONNECTION,this.USERNAME,this.PASSWORD);
@@ -42,8 +51,13 @@ public abstract class DatabaseConnection {
          
 
     }
-	//abstract methods that have varying implementations based on the object which inherits them
+	/**
+	 * abstract method that have varying implementations based on the object which inherits them
+	 */
 	public abstract void loadFromDB();
+	/**
+	 * abstract method that have varying implementations based on the object which inherits them
+	 */
 	public abstract void updateDB();
 	
 	

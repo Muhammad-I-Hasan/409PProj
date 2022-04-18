@@ -18,16 +18,26 @@ public class Order {
 	
 	//constructor with FoodInv object that sets it to the inventory field
 	public Order(FoodInv inv) throws IllegalArgumentException {
-		
-		this.inventory = inv;
+		if (inv == null) {
+			throw new IllegalArgumentException();
+		}
+		else {
+			this.inventory = inv;
+		}
 	}
-	//creates Order object with HouseHolds and a FoodInv oject
+	//creates Order object with HouseHolds and a FoodInv object
 	public Order(FoodInv inv, Household [] households) throws IllegalArgumentException { 
 		
-		this.inventory = inv;
+		if (inv == null) {
+			throw new IllegalArgumentException();
+		}
+		else {
+			this.inventory = inv;
+		}
 		
 		for (Household i: households) {
 			houseHolds.add(i);
+	
 		}
 	}
 	//method responsible for making and finalizing the households hampers and possible food items
@@ -81,7 +91,7 @@ public class Order {
 	 * @throws InsufficientInventoryException - if there is no possible combinations of items that satisy the clients needs
 	 */
 	
-	public void makeHamper(Household house, ArrayList<Food> copy) throws InsufficientInventoryException {
+	private void makeHamper(Household house, ArrayList<Food> copy) throws InsufficientInventoryException {
 		ArrayList<Food> inventoryList = inventory.getFoodList();//gets the food of the inventory
 		
 		Nutrition nutr = house.getTotalNeeds();//nutrtion of the house

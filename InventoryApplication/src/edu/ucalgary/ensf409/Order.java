@@ -7,7 +7,7 @@ import java.util.Arrays;
 /**
  * Order object responsible for making the hampers for each household and creating the best possible hamper for each household 
  * and also managing the inventory object that hold all the data of the database
- * @author sasha
+ * @author sasha, myles, muhammad
  * @version 2.3
  * @since 1.0
  */

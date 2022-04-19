@@ -382,4 +382,4 @@ public class OrderTest {
 		}
 		assertEquals("did not throw an IllegalArgumentException when given an invalid Household object to add: ", true, correctException);  
 	}
-}
+} 

@@ -2,6 +2,12 @@ package edu.ucalgary.ensf409;
 
 import java.util.ArrayList;
 
+/**
+ * Holds Household information
+ * @author myles, muhammad
+ * @version 2.2
+ * @since 1.0
+ */
 public class Household {
 	
 	private String name;

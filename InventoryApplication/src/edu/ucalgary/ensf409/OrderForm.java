@@ -3,7 +3,12 @@ package edu.ucalgary.ensf409;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-
+/**
+ * Order information access
+ * @author myles, muhammad
+ * @version 2.2
+ * @since 1.0
+ */
 public class OrderForm {
 
 	private final Order order;

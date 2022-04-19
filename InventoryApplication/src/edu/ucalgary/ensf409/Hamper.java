@@ -1,7 +1,12 @@
 package edu.ucalgary.ensf409;
 
 import java.util.ArrayList;
-
+/**
+ * Holds Hamper info for each household
+ * @author myles, muhammad
+ * @version 2.2
+ * @since 1.0
+ */
 public class Hamper {
 
 	private ArrayList<Food> foodList = null;

@@ -1,5 +1,10 @@
 package edu.ucalgary.ensf409;
-
+/**
+ * Holds client information
+ * @author myles, muhammad
+ * @version 2.2
+ * @since 1.0
+ */
 public class Client {
 
 	private final int ID;

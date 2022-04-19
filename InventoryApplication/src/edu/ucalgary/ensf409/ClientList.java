@@ -3,7 +3,12 @@ package edu.ucalgary.ensf409;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+/**
+ * ist of clients read from database
+ * @author myles, muhammad
+ * @version 2.2
+ * @since 1.0
+ */
 public class ClientList extends DatabaseConnection{
 
 	private ArrayList<Client> clientList = null;

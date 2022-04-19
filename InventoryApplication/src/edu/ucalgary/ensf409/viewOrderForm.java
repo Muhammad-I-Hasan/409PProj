@@ -12,7 +12,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
-
+/**
+ * GUI extension
+ * @author myles
+ * @version 2.2
+ * @since 1.0
+ */
 public class viewOrderForm extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();

@@ -1,5 +1,11 @@
 package edu.ucalgary.ensf409;
 
+/**
+ * Holds Nutrition information
+ * @author myles, muhammad
+ * @version 2.2
+ * @since 1.0
+ */
 public class Nutrition {
 	private final int GRAIN;
 	private final int FRUITSVEGGIES;

@@ -23,6 +23,12 @@ import java.awt.Insets;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
+/**
+ * Main Program GUI
+ * @author myles
+ * @version 2.2
+ * @since 1.0
+ */
 public class GUI {
 	
 	/*

@@ -1,4 +1,4 @@
-# ENSF 409 W22 Final Project
+# Food Bank Inventory System
 
 ## Problem Statement
 Develop an Application that distributs hampers of food from a local foodbank to Users/Clients that are in need of it
